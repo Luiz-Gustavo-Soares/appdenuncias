@@ -38,6 +38,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+─ Denúncias
+├── Questionários
+├── Evidências
+    'auditoria',
+    'classificador',
+    'denuncia',
+    'questionario'
 ]
 
 MIDDLEWARE = [
