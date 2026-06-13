@@ -14,3 +14,9 @@ class NivelDeRisco(models.TextChoices):
     ALTO = "AL", "Alto"
     MEDIO = "ME", "Medio"
     BAIXO = "BA", "Baixo"
+    
+
+class SituacaoAnterior(models.TextChoices):
+    ENCERRADA = 'EN', 'A ocorrência anterior foi encerrada'
+    ANDAMENTO = 'AN', 'A ocorrência ainda está em andamento'
+    SEM_CERTEZA = 'SC', 'Não tenho certeza'

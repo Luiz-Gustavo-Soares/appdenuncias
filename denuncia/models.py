@@ -2,7 +2,7 @@ from django.db import models
 
 import uuid
 
-from denuncia.enums import StatusDenuncia, NivelDeRisco
+from denuncia.enums import StatusDenuncia, NivelDeRisco, SituacaoAnterior
 from denuncia import states as st
 
 from core.models import Endereco
@@ -22,7 +22,15 @@ class Denuncia(models.Model):
         max_length=2
     )
 
+
     registrou_anteriormente = models.BooleanField()
+
+    situacao_anterior = models.CharField(
+        choices=SituacaoAnterior,
+        max_length=2,
+        null=True,
+        blank=True,
+    )
 
     denunciante_envolvida = models.BooleanField()
 
