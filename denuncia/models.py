@@ -1,5 +1,49 @@
 from django.db import models
 
-# Create your models here.
+import uuid
+
+from denuncia.enums import StatusDenuncia, NivelDeRisco
+from denuncia import states as st
+
+
 class Denuncia(models.Model):
-    pass
+    data_criacao = models.DateTimeField(auto_now_add=True)
+    codigo_denuncia = models.CharField(max_length=40, unique=True, editable=False)
+
+    nivel_risco = models.CharField(
+        choices=NivelDeRisco,
+        max_length=2
+    )
+
+    status = models.CharField(
+        choices=StatusDenuncia,
+        max_length=2
+    )
+
+    @property
+    def state(self) -> st.StateDenuncia:
+        
+        mapping = {
+            StatusDenuncia.RASCUNHO: st.RascunhoState,
+            StatusDenuncia.SALVO: st.SalvoState,
+            StatusDenuncia.VALIDADA: st.ValidadaState,
+            StatusDenuncia.ENCAMINHADA: st.EncaminharState,
+        }
+
+        return mapping[self.status](self)
+    
+
+    def save(self, *args, **kwargs):
+        if not self.codigo_denuncia:
+            while True:  
+                novo_codigo = str(uuid.uuid4())
+
+                if not Denuncia.objects.filter(codigo_denuncia=novo_codigo).exists():
+                    self.codigo_denuncia = novo_codigo
+                    break
+                    
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f'Denuncia {self.id}'
+
