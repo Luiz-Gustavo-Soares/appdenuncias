@@ -12,6 +12,10 @@ class Denuncia(models.Model):
     data_criacao = models.DateTimeField(auto_now_add=True)
     codigo_denuncia = models.CharField(max_length=40, unique=True, editable=False)
 
+    nome = models.CharField(max_length=100, null=True, blank=True)
+    cpf = models.CharField(max_length=20, null=True, blank=True)
+
+
     nivel_risco = models.CharField(
         choices=NivelDeRisco,
         max_length=2

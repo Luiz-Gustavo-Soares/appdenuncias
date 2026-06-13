@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Relatório de Denúncia</title>
+
+    <style>
+        @page {
+            size: A4;
+            margin: 2cm;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            color: #333;
+            line-height: 1.5;
+        }
+
+        h1, h2, h3 {
+            margin: 0;
+        }
+
+        .header {
+            text-align: center;
+            border-bottom: 2px solid #000;
+            padding-bottom: 10px;
+            margin-bottom: 25px;
+        }
+
+        .section {
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            background: #f0f0f0;
+            padding: 8px;
+            font-weight: bold;
+            border-left: 4px solid #555;
+            margin-bottom: 10px;
+        }
+
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .info-table td {
+            padding: 6px;
+            border: 1px solid #ddd;
+        }
+
+        .label {
+            width: 35%;
+            font-weight: bold;
+            background: #fafafa;
+        }
+
+        .question {
+            margin-bottom: 12px;
+        }
+
+        .question-title {
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+
+        .answer {
+            padding-left: 10px;
+        }
+
+        .risk-high {
+            color: #d97706;
+            font-weight: bold;
+        }
+
+        .risk-critical {
+            color: #dc2626;
+            font-weight: bold;
+        }
+
+        .risk-medium {
+            color: #2563eb;
+            font-weight: bold;
+        }
+
+        .risk-low {
+            color: #16a34a;
+            font-weight: bold;
+        }
+
+        .footer {
+            margin-top: 40px;
+            border-top: 1px solid #ddd;
+            padding-top: 10px;
+            font-size: 10px;
+            text-align: center;
+        }
+
+        .evidence-list {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .text-block {
+            border: 1px solid #ddd;
+            padding: 12px;
+            background: #fafafa;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>RELATÓRIO DE DENÚNCIA</h1>
+        <p>Sistema de Atendimento e Encaminhamento</p>
+    </div>
+
+    <div class="section">
+        <div class="section-title">
+            Informações Gerais
+        </div>
+
+        <table class="info-table">
+            <tr>
+                <td class="label">Protocolo</td>
+                <td>{{ denuncia.protocolo }}</td>
+            </tr>
+
+            <tr>
+                <td class="label">Data de Registro</td>
+                <td>{{ denuncia.data_criacao|date:"d/m/Y H:i" }}</td>
+            </tr>
+
+            <tr>
+                <td class="label">Status</td>
+                <td>{{ denuncia.get_status_display }}</td>
+            </tr>
+
+            <tr>
+                <td class="label">Nível de Risco</td>
+                <td>
+                    {{ denuncia.get_nivel_risco_display }}
+                </td>
+            </tr>
+
+            <tr>
+                <td class="label">Tipo de Violência</td>
+                <td>
+                    {{ denuncia.tipo_violencia }}
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="section">
+        <div class="section-title">
+            Dados da Denunciante
+        </div>
+
+        <table class="info-table">
+            <tr>
+                <td class="label">Nome</td>
+                <td>{{ denuncia.nome_denunciante }}</td>
+            </tr>
+
+            <tr>
+                <td class="label">Telefone</td>
+                <td>{{ denuncia.telefone }}</td>
+            </tr>
+
+            <tr>
+                <td class="label">E-mail</td>
+                <td>{{ denuncia.email }}</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="section">
+        <div class="section-title">
+            Classificação da Denúncia
+        </div>
+
+        <table class="info-table">
+            <tr>
+                <td class="label">Classificação Automática</td>
+                <td>{{ denuncia.risco_automatico }}</td>
+            </tr>
+
+            <tr>
+                <td class="label">Classificação Final</td>
+                <td>{{ denuncia.risco_final }}</td>
+            </tr>
+
+            <tr>
+                <td class="label">Pontuação de Risco</td>
+                <td>{{ denuncia.pontuacao_risco }}</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="section">
+        <div class="section-title">
+            Relato da Denunciante
+        </div>
+
+        <div class="text-block">
+            {{ denuncia.relato }}
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-title">
+            Respostas do Questionário
+        </div>
+
+        {% for resposta in respostas %}
+            <div class="question">
+                <div class="question-title">
+                    {{ resposta.pergunta.texto }}
+                </div>
+
+                <div class="answer">
+                    {{ resposta.valor_exibicao }}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="section">
+        <div class="section-title">
+            Observações da Revisão Administrativa
+        </div>
+
+        <div class="text-block">
+            {{ denuncia.observacoes_admin|default:"Nenhuma observação registrada." }}
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-title">
+            Evidências Anexadas
+        </div>
+
+        <ul class="evidence-list">
+            {% for evidencia in evidencias %}
+                <li>{{ evidencia.nome_arquivo }}</li>
+            {% empty %}
+                <li>Nenhuma evidência anexada.</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="footer">
+        Documento gerado automaticamente em
+        {{ data_geracao|date:"d/m/Y H:i:s" }}
+    </div>
+
+</body>
+</html>
