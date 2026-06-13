@@ -5,6 +5,8 @@ import uuid
 from denuncia.enums import StatusDenuncia, NivelDeRisco
 from denuncia import states as st
 
+from core.models import Endereco
+
 
 class Denuncia(models.Model):
     data_criacao = models.DateTimeField(auto_now_add=True)
@@ -19,6 +21,27 @@ class Denuncia(models.Model):
         choices=StatusDenuncia,
         max_length=2
     )
+
+    registrou_anteriormente = models.BooleanField()
+
+    denunciante_envolvida = models.BooleanField()
+
+    endereco_vitima = models.OneToOneField(
+        Endereco,
+        on_delete=models.PROTECT,
+        null=True,
+        blank=True,
+        related_name='denuncia_v'
+    )
+
+    endereco_denunciante = models.OneToOneField(
+        Endereco,
+        on_delete=models.PROTECT,
+        null=True,
+        blank=True,
+        related_name='denuncia_d'
+    )
+
 
     @property
     def state(self) -> st.StateDenuncia:

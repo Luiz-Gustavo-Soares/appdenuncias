@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'auditoria',
     'classificador',
     'denuncia',
-    'questionario'
+    'questionario',
+    'core'
 ]
 
 MIDDLEWARE = [
