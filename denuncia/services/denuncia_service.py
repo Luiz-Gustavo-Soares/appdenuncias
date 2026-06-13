@@ -1,6 +1,7 @@
 from django.db import transaction
 from denuncia.models import Denuncia
 from denuncia.enums import StatusDenuncia
+from auditoria.services.auditoria_services import validar_revisao
 
 class DenunciaService:
     
@@ -13,7 +14,8 @@ class DenunciaService:
     @classmethod
     @transaction.atomic
     def validar(cls, denuncia: Denuncia):
-        denuncia.state.validar()
+        if validar_revisao(denuncia):
+            denuncia.state.validar()
 
 
     @classmethod

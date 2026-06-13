@@ -24,24 +24,24 @@ class StateDenuncia(ABC):
 
 class RascunhoState(StateDenuncia):
     def salvar(self):
-        self.denuncia = StatusDenuncia.SALVO
+        self.denuncia.status = StatusDenuncia.SALVO
         self.denuncia.save()
 
 
 class SalvoState(StateDenuncia):
     def validar(self):
-        self.denuncia = StatusDenuncia.VALIDADA
+        self.denuncia.status = StatusDenuncia.VALIDADA
         self.denuncia.save()
 
 
 class ValidadaState(StateDenuncia):
     def encaminhar(self):
-        self.denuncia = StatusDenuncia.ENCAMINHADA
+        self.denuncia.status = StatusDenuncia.ENCAMINHADA
         self.denuncia.save()
 
 
 class EncaminharState(StateDenuncia):
     def finalizar(self):
-        self.denuncia = StatusDenuncia.FINALIZADA
+        self.denuncia.status = StatusDenuncia.FINALIZADA
         self.denuncia.save()
 

@@ -22,3 +22,6 @@ class Endereco(models.Model):
     cidade = models.CharField(max_length=50, null=True, blank=True)
     estado = models.CharField(max_length=2, null=True, blank=True)
     complemento = models.CharField(max_length=50, null=True, blank=True)
+
+    def __str__(self):
+        return f'{self.lagradouro}, N.{self.numero}, {self.complemento}, {self.cidade} - {self.estado}'

@@ -125,7 +125,7 @@
         <table class="info-table">
             <tr>
                 <td class="label">Protocolo</td>
-                <td>{{ denuncia.protocolo }}</td>
+                <td>{{ denuncia.codigo_denuncia }}</td>
             </tr>
 
             <tr>
@@ -141,16 +141,16 @@
             <tr>
                 <td class="label">Nível de Risco</td>
                 <td>
-                    {{ denuncia.get_nivel_risco_display }}
+                    {{ denuncia.auditoria.get_nivel_risco_corrigido_display }}
                 </td>
             </tr>
 
-            <tr>
+            {% comment %} <tr>
                 <td class="label">Tipo de Violência</td>
                 <td>
                     {{ denuncia.tipo_violencia }}
                 </td>
-            </tr>
+            </tr> {% endcomment %}
         </table>
     </div>
 
@@ -162,18 +162,41 @@
         <table class="info-table">
             <tr>
                 <td class="label">Nome</td>
-                <td>{{ denuncia.nome_denunciante }}</td>
+                <td>{{ denuncia.base_info.nome }}</td>
+            </tr>
+            <tr>
+                <td class="label">Cpf</td>
+                <td>{{ denuncia.base_info.cpf }}</td>
             </tr>
 
             <tr>
-                <td class="label">Telefone</td>
-                <td>{{ denuncia.telefone }}</td>
+                <td class="label">Registrou uma ocorrencia anteriormente</td>
+                <td>{{ denuncia.base_info.registrou_anteriormente }}</td>
             </tr>
+            
+            {% if denuncia.base_info.registrou_anteriormente %}
+            <tr>
+                <td class="label">Situacao da denuncia anterior</td>
+                <td>{{ denuncia.base_info.get_situacao_anterior_display }}</td>
+            </tr>
+            {% endif %}
 
             <tr>
-                <td class="label">E-mail</td>
-                <td>{{ denuncia.email }}</td>
+                <td class="label">A denunciante está envolvida</td>
+                <td>{{ denuncia.base_info.denunciante_envolvida }}</td>
             </tr>
+
+            {% if denuncia.base_info.denunciante_envolvida %}
+            <tr>
+                <td class="label">Endereço Denunciante</td>
+                <td>{{ denuncia.base_info.endereco_denunciante }}</td>
+            </tr>
+            {% else %}
+            <tr>
+                <td class="label">Endereço Vitima</td>
+                <td>{{ denuncia.base_info.endereco_vitima }}</td>
+            </tr>
+            {% endif %}
         </table>
     </div>
 
@@ -185,12 +208,12 @@
         <table class="info-table">
             <tr>
                 <td class="label">Classificação Automática</td>
-                <td>{{ denuncia.risco_automatico }}</td>
+                <td>{{ denuncia.get_risco_automatico_display }}</td>
             </tr>
 
             <tr>
                 <td class="label">Classificação Final</td>
-                <td>{{ denuncia.risco_final }}</td>
+                <td>{{ denuncia.auditoria.get_nivel_risco_corrigido_display }}</td>
             </tr>
 
             <tr>
@@ -234,7 +257,7 @@
         </div>
 
         <div class="text-block">
-            {{ denuncia.observacoes_admin|default:"Nenhuma observação registrada." }}
+            {{ denuncia.auditoria.observacao|default:"Nenhuma observação registrada." }}
         </div>
     </div>
 
