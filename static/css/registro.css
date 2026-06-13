@@ -1,0 +1,520 @@
+/* ============================================================
+   registro.css — Estilos exclusivos da página de registro
+   Depende das variáveis definidas em base.css.
+   Seções: Layout geral, Cabeçalho, Abas, Painel/Etapas,
+           Campos (inputs, selects, radios, upload),
+           Navegação (Retornar / Continuar), Responsividade.
+   ============================================================ */
+
+
+/* ------------------------------------------------------------
+   1. LAYOUT GERAL
+   ------------------------------------------------------------ */
+.registro {
+  max-width: var(--largura-maxima);
+  margin: 0 auto;
+  padding: var(--espaco-xl) var(--espaco-xl) var(--espaco-2xl);
+}
+
+
+/* ------------------------------------------------------------
+   2. CABEÇALHO
+   ------------------------------------------------------------ */
+.registro__cabecalho {
+  margin-bottom: var(--espaco-xl);
+}
+
+.registro__eyebrow {
+  display: block;
+  font-size: var(--tamanho-sm);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--cor-texto-suave);
+  margin-bottom: var(--espaco-xs);
+}
+
+.registro__titulo {
+  font-size: var(--tamanho-2xl);
+  font-weight: 700;
+  color: var(--cor-texto);
+  margin-bottom: var(--espaco-xs);
+}
+
+.registro__subtitulo {
+  font-size: var(--tamanho-base);
+  color: var(--cor-texto-suave);
+}
+
+.registro__subtitulo span {
+  color: var(--cor-vermelho);
+  font-weight: 600;
+}
+
+
+/* ------------------------------------------------------------
+   3. ABAS DE NAVEGAÇÃO
+   ------------------------------------------------------------ */
+.registro__abas {
+  display: flex;
+  gap: 2px;
+  overflow-x: auto;
+  scrollbar-width: none;           /* Firefox */
+  -ms-overflow-style: none;        /* IE / Edge */
+  border-bottom: 2px solid var(--cor-borda);
+  margin-bottom: 0;
+}
+
+.registro__abas::-webkit-scrollbar {
+  display: none;                   /* Chrome / Safari */
+}
+
+/* Botão de aba individual */
+.registro__aba {
+  display: flex;
+  align-items: center;
+  gap: var(--espaco-xs);
+  padding: var(--espaco-sm) var(--espaco-md);
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;             /* Sobrepõe a borda do nav */
+  font-size: var(--tamanho-sm);
+  font-weight: 500;
+  color: var(--cor-texto-suave);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color var(--transicao), border-color var(--transicao);
+}
+
+.registro__aba:hover {
+  color: var(--cor-roxo);
+}
+
+/* Aba ativa */
+.registro__aba--ativa {
+  color: var(--cor-roxo);
+  border-bottom-color: var(--cor-roxo);
+  font-weight: 600;
+}
+
+.registro__aba-icone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+
+/* ------------------------------------------------------------
+   4. PAINEL DE ETAPAS
+   ------------------------------------------------------------ */
+.registro__painel {
+  background-color: var(--cor-fundo-branco);
+  border: 1px solid var(--cor-borda);
+  border-top: none;
+  border-radius: 0 0 var(--raio-md) var(--raio-md);
+  padding: var(--espaco-xl);
+}
+
+
+/* ------------------------------------------------------------
+   5. ETAPA INDIVIDUAL
+   ------------------------------------------------------------ */
+.registro__etapa-titulo {
+  font-size: var(--tamanho-lg);
+  font-weight: 700;
+  color: var(--cor-texto);
+  margin-bottom: var(--espaco-xs);
+}
+
+.registro__etapa-descricao {
+  font-size: var(--tamanho-sm);
+  color: var(--cor-texto-suave);
+  margin-bottom: var(--espaco-xl);
+}
+
+/* Grid de campos dentro de cada etapa */
+.registro__campos {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--espaco-lg);
+}
+
+
+/* ------------------------------------------------------------
+   6. CAMPO GENÉRICO
+   ------------------------------------------------------------ */
+
+/* Por padrão ocupa as 2 colunas do grid */
+.campo {
+  grid-column: span 2;
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-xs);
+}
+
+/* Variante: ocupa apenas 1 coluna */
+.campo--duplo {
+  grid-column: span 1;
+}
+
+/* Label */
+.campo__label {
+  font-size: var(--tamanho-sm);
+  font-weight: 600;
+  color: var(--cor-texto);
+}
+
+.campo__obrigatorio {
+  color: var(--cor-vermelho);
+  margin-left: 2px;
+}
+
+/* Input de texto genérico */
+.campo__input {
+  width: 100%;
+  padding: var(--espaco-sm) var(--espaco-md);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-sm);
+  font-family: var(--fonte-base);
+  font-size: var(--tamanho-base);
+  color: var(--cor-texto);
+  background-color: var(--cor-fundo-branco);
+  transition: border-color var(--transicao), box-shadow var(--transicao);
+}
+
+.campo__input::placeholder {
+  color: #BBBBBB;
+}
+
+.campo__input:focus {
+  outline: none;
+  border-color: var(--cor-roxo);
+  box-shadow: 0 0 0 3px rgba(92, 45, 145, 0.12);
+}
+
+/* Estado de erro (adicionado pelo registro.js na validação) */
+.campo__input--erro {
+  border-color: var(--cor-vermelho);
+  box-shadow: 0 0 0 3px rgba(211, 47, 47, 0.10);
+}
+
+/* Select */
+.campo__select {
+  width: 100%;
+  padding: var(--espaco-sm) var(--espaco-md);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-sm);
+  font-family: var(--fonte-base);
+  font-size: var(--tamanho-base);
+  color: var(--cor-texto);
+  background-color: var(--cor-fundo-branco);
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%235A5A5A' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right var(--espaco-md) center;
+  padding-right: calc(var(--espaco-md) * 2 + 12px);
+  cursor: pointer;
+  transition: border-color var(--transicao), box-shadow var(--transicao);
+}
+
+.campo__select:focus {
+  outline: none;
+  border-color: var(--cor-roxo);
+  box-shadow: 0 0 0 3px rgba(92, 45, 145, 0.12);
+}
+
+.campo__select--erro {
+  border-color: var(--cor-vermelho);
+}
+
+/* Textarea */
+.campo__textarea {
+  width: 100%;
+  padding: var(--espaco-sm) var(--espaco-md);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-sm);
+  font-family: var(--fonte-base);
+  font-size: var(--tamanho-base);
+  color: var(--cor-texto);
+  background-color: var(--cor-fundo-branco);
+  resize: vertical;
+  min-height: 80px;
+  transition: border-color var(--transicao), box-shadow var(--transicao);
+}
+
+.campo__textarea::placeholder {
+  color: #BBBBBB;
+}
+
+.campo__textarea:focus {
+  outline: none;
+  border-color: var(--cor-roxo);
+  box-shadow: 0 0 0 3px rgba(92, 45, 145, 0.12);
+}
+
+.campo__textarea--grande {
+  min-height: 200px;
+}
+
+
+/* ------------------------------------------------------------
+   7. GRUPO DE BOTÕES RADIO
+   ------------------------------------------------------------ */
+.campo__grupo-botoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espaco-sm);
+}
+
+/* Label que envolve o radio + texto */
+.campo__opcao {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--espaco-xs);
+  padding: var(--espaco-xs) var(--espaco-md);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-sm);
+  font-size: var(--tamanho-sm);
+  font-weight: 500;
+  color: var(--cor-texto);
+  cursor: pointer;
+  transition: border-color var(--transicao), background-color var(--transicao), color var(--transicao);
+}
+
+.campo__opcao:hover {
+  border-color: var(--cor-roxo);
+  background-color: var(--cor-roxo-claro);
+  color: var(--cor-roxo);
+}
+
+/* Esconde o input radio nativo mas mantém acessível */
+.campo__opcao input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* Estilo quando o radio está selecionado */
+.campo__opcao:has(input[type="radio"]:checked) {
+  border-color: var(--cor-roxo);
+  background-color: var(--cor-roxo-claro);
+  color: var(--cor-roxo);
+  font-weight: 600;
+}
+
+
+/* ------------------------------------------------------------
+   8. ÁREA DE UPLOAD (Etapa 9)
+   ------------------------------------------------------------ */
+.campo__upload {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--espaco-sm);
+  padding: var(--espaco-2xl) var(--espaco-xl);
+  border: 2px dashed var(--cor-borda);
+  border-radius: var(--raio-md);
+  background-color: var(--cor-fundo);
+  text-align: center;
+  cursor: pointer;
+  transition: border-color var(--transicao), background-color var(--transicao);
+}
+
+.campo__upload:hover {
+  border-color: var(--cor-roxo);
+  background-color: var(--cor-roxo-claro);
+}
+
+/* Input file invisível cobre toda a área clicável */
+.campo__upload-input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.campo__upload-icone {
+  color: var(--cor-roxo);
+}
+
+.campo__upload-texto {
+  font-size: var(--tamanho-base);
+  font-weight: 500;
+  color: var(--cor-texto);
+}
+
+.campo__upload-info {
+  font-size: var(--tamanho-sm);
+  color: var(--cor-texto-suave);
+}
+
+/* Lista de arquivos selecionados (populada pelo registro.js) */
+.campo__upload-lista {
+  margin-top: var(--espaco-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-xs);
+}
+
+.campo__upload-lista li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--espaco-xs) var(--espaco-md);
+  background-color: var(--cor-fundo-branco);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-sm);
+  font-size: var(--tamanho-sm);
+  color: var(--cor-texto);
+}
+
+.campo__upload-lista li span {
+  color: var(--cor-texto-suave);
+  font-size: var(--tamanho-sm);
+}
+
+
+/* ------------------------------------------------------------
+   9. NAVEGAÇÃO INFERIOR (Retornar / Contador / Continuar)
+   ------------------------------------------------------------ */
+.registro__navegacao {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--espaco-md) var(--espaco-xl);
+  border-top: 1px solid var(--cor-borda);
+  background-color: var(--cor-fundo-branco);
+  border-radius: 0 0 var(--raio-md) var(--raio-md);
+}
+
+/* Botão Retornar */
+.registro__btn-retornar {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--espaco-xs);
+  padding: var(--espaco-sm) var(--espaco-lg);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-sm);
+  font-size: var(--tamanho-base);
+  font-weight: 500;
+  color: var(--cor-texto-suave);
+  background-color: var(--cor-fundo-branco);
+  cursor: pointer;
+  transition: border-color var(--transicao), color var(--transicao);
+}
+
+.registro__btn-retornar:hover:not(:disabled) {
+  border-color: var(--cor-roxo);
+  color: var(--cor-roxo);
+}
+
+.registro__btn-retornar:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+/* Contador "Etapa X de 9" */
+.registro__contador {
+  font-size: var(--tamanho-sm);
+  font-weight: 500;
+  color: var(--cor-texto-suave);
+}
+
+/* Botão Continuar */
+.registro__btn-continuar {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--espaco-xs);
+  padding: var(--espaco-sm) var(--espaco-lg);
+  background-color: var(--cor-roxo);
+  color: var(--cor-texto-claro);
+  border: none;
+  border-radius: var(--raio-sm);
+  font-size: var(--tamanho-base);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color var(--transicao), transform var(--transicao);
+}
+
+.registro__btn-continuar:hover {
+  background-color: var(--cor-roxo-escuro);
+}
+
+.registro__btn-continuar:active {
+  transform: scale(0.98);
+}
+
+/* Variante: último passo vira botão de envio (laranja) */
+.registro__btn-continuar--enviar {
+  background-color: var(--cor-laranja);
+}
+
+.registro__btn-continuar--enviar:hover {
+  background-color: var(--cor-laranja-hover);
+}
+
+
+/* ------------------------------------------------------------
+   10. MENSAGEM DE ERRO DE CAMPO
+   (injetada pelo registro.js abaixo dos campos inválidos)
+   ------------------------------------------------------------ */
+.campo__erro-msg {
+  font-size: var(--tamanho-sm);
+  color: var(--cor-vermelho);
+  margin-top: 2px;
+}
+
+
+/* ------------------------------------------------------------
+   11. RESPONSIVIDADE
+   ------------------------------------------------------------ */
+@media (max-width: 768px) {
+  .registro {
+    padding: var(--espaco-md) var(--espaco-md) var(--espaco-xl);
+  }
+
+  .registro__painel {
+    padding: var(--espaco-md);
+  }
+
+  /* Grid de campos: coluna única */
+  .registro__campos {
+    grid-template-columns: 1fr;
+  }
+
+  .campo--duplo {
+    grid-column: span 1;
+  }
+
+  /* Abas: scroll horizontal silencioso */
+  .registro__abas {
+    gap: 0;
+  }
+
+  .registro__aba {
+    padding: var(--espaco-sm);
+    font-size: var(--tamanho-sm);
+  }
+
+  /* Esconde o label das abas, mantém só o ícone */
+  .registro__aba span + * {
+    display: none;
+  }
+
+  .registro__navegacao {
+    padding: var(--espaco-sm) var(--espaco-md);
+  }
+
+  .registro__btn-retornar,
+  .registro__btn-continuar {
+    padding: var(--espaco-sm) var(--espaco-md);
+    font-size: var(--tamanho-sm);
+  }
+}

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}DEAM — Denúncia Online de Violência à Mulher{% endblock %}</title>
+
+  <!-- Fonte -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- CSS global -->
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/base.css' %}" />
+
+  <!-- CSS específico da página -->
+  {% block css %}{% endblock %}
+</head>
+<body>
+
+  <!-- ===================== NAVBAR ===================== -->
+  <nav class="navbar">
+    <div class="navbar__inner">
+
+      <!-- Logo / identidade -->
+      <a href="{% url 'index' %}" class="navbar__brand">
+        <span class="navbar__brand-icon" aria-hidden="true">
+          <!-- Ícone escudo (inline SVG para não depender de arquivo externo) -->
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10 1L2 4.5V9.5C2 13.85 5.4 17.92 10 19C14.6 17.92 18 13.85 18 9.5V4.5L10 1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+            <path d="M7 10L9 12L13 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        <span class="navbar__brand-text">
+          <strong>DEAM</strong>
+          <small>Denúncia Online de Violência à Mulher</small>
+        </span>
+      </a>
+
+      <!-- Link de navegação -->
+      <a
+        href="{% url 'index' %}?reset=1"
+        class="navbar__link"
+        id="btn-inicio"
+      >Início</a>
+
+      <!-- Botão Saída Rápida -->
+      <button
+        type="button"
+        class="navbar__saida-rapida"
+        id="btn-saida-rapida"
+        aria-label="Sair rapidamente do site"
+      >
+        Saída Rápida
+        <!-- Ícone de alerta -->
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M7 1L13 12H1L7 1Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+          <path d="M7 5.5V8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+          <circle cx="7" cy="10" r="0.7" fill="currentColor"/>
+        </svg>
+      </button>
+
+    </div>
+  </nav>
+  <!-- =================== FIM NAVBAR =================== -->
+
+
+  <!-- =================== CONTEÚDO ==================== -->
+  <main id="conteudo-principal">
+    {% block content %}{% endblock %}
+  </main>
+  <!-- ================= FIM CONTEÚDO ================== -->
+
+
+  <!-- ===================== FOOTER ==================== -->
+  <footer class="footer">
+    <div class="footer__inner">
+      <p>Em caso de emergência, ligue <strong>190</strong> (Polícia Militar) ou <strong>180</strong> (Central de Atendimento à Mulher).</p>
+    </div>
+  </footer>
+  <!-- =================== FIM FOOTER ================== -->
+
+
+  <!-- JS global -->
+  <script src="{% static 'js/saida-rapida.js' %}"></script>
+
+  <!-- JS específico da página -->
+  {% block js %}{% endblock %}
+
+</body>
+</html>

@@ -1,0 +1,360 @@
+/* ============================================================
+   base.css — Estilos globais do DEAM
+   Contém: variáveis, reset, tipografia, navbar, footer,
+   e utilitários compartilhados por todas as páginas.
+   ============================================================ */
+
+
+/* ------------------------------------------------------------
+   1. VARIÁVEIS (Design Tokens)
+   ------------------------------------------------------------ */
+:root {
+  /* Cores principais */
+  --cor-roxo:          #5C2D91;
+  --cor-roxo-escuro:   #471F75;
+  --cor-roxo-claro:    #EDE7F6;
+  --cor-laranja:       #E8630A;
+  --cor-laranja-hover: #C9530A;
+  --cor-vermelho:      #D32F2F;
+  --cor-vermelho-hover:#B71C1C;
+
+  /* Neutros */
+  --cor-fundo:         #F5F5F5;
+  --cor-fundo-branco:  #FFFFFF;
+  --cor-borda:         #E0E0E0;
+  --cor-texto:         #1A1A1A;
+  --cor-texto-suave:   #5A5A5A;
+  --cor-texto-claro:   #FFFFFF;
+
+  /* Tipografia */
+  --fonte-base:        'Inter', sans-serif;
+  --tamanho-sm:        0.813rem;   /* 13px */
+  --tamanho-base:      0.938rem;   /* 15px */
+  --tamanho-md:        1rem;       /* 16px */
+  --tamanho-lg:        1.125rem;   /* 18px */
+  --tamanho-xl:        1.5rem;     /* 24px */
+  --tamanho-2xl:       2rem;       /* 32px */
+
+  /* Espaçamentos */
+  --espaco-xs:         0.25rem;    /* 4px  */
+  --espaco-sm:         0.5rem;     /* 8px  */
+  --espaco-md:         1rem;       /* 16px */
+  --espaco-lg:         1.5rem;     /* 24px */
+  --espaco-xl:         2rem;       /* 32px */
+  --espaco-2xl:        3rem;       /* 48px */
+
+  /* Layout */
+  --largura-maxima:    1100px;
+  --altura-navbar:     60px;
+
+  /* Bordas */
+  --raio-sm:           4px;
+  --raio-md:           8px;
+  --raio-lg:           12px;
+
+  /* Sombras */
+  --sombra-sm:         0 1px 3px rgba(0, 0, 0, 0.08);
+  --sombra-md:         0 4px 12px rgba(0, 0, 0, 0.10);
+
+  /* Transições */
+  --transicao:         0.2s ease;
+}
+
+
+/* ------------------------------------------------------------
+   2. RESET
+   ------------------------------------------------------------ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--fonte-base);
+  font-size: var(--tamanho-base);
+  color: var(--cor-texto);
+  background-color: var(--cor-fundo);
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  -webkit-font-smoothing: antialiased;
+}
+
+main {
+  flex: 1;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: var(--fonte-base);
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+/* Garante que o atributo HTML `hidden` sempre esconda o elemento,
+   mesmo quando o CSS define display explicitamente no seletor */
+[hidden] {
+  display: none !important;
+}
+
+/* Acessibilidade — foco visível */
+:focus-visible {
+  outline: 2px solid var(--cor-laranja);
+  outline-offset: 3px;
+  border-radius: var(--raio-sm);
+}
+
+
+/* ------------------------------------------------------------
+   3. TIPOGRAFIA BASE
+   ------------------------------------------------------------ */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--cor-texto);
+}
+
+h1 { font-size: var(--tamanho-2xl); }
+h2 { font-size: var(--tamanho-xl);  }
+h3 { font-size: var(--tamanho-lg);  }
+
+p {
+  color: var(--cor-texto-suave);
+  line-height: 1.7;
+}
+
+strong {
+  font-weight: 600;
+  color: var(--cor-texto);
+}
+
+small {
+  font-size: var(--tamanho-sm);
+}
+
+
+/* ------------------------------------------------------------
+   4. NAVBAR
+   ------------------------------------------------------------ */
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  height: var(--altura-navbar);
+  background-color: var(--cor-fundo-branco);
+  border-bottom: 1px solid var(--cor-borda);
+  box-shadow: var(--sombra-sm);
+}
+
+.navbar__inner {
+  max-width: var(--largura-maxima);
+  height: 100%;
+  margin: 0 auto;
+  padding: 0 var(--espaco-xl);
+  display: flex;
+  align-items: center;
+  gap: var(--espaco-xl);
+}
+
+/* Brand (logo + nome) */
+.navbar__brand {
+  display: flex;
+  align-items: center;
+  gap: var(--espaco-sm);
+  color: var(--cor-roxo);
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.navbar__brand:hover {
+  opacity: 0.85;
+}
+
+.navbar__brand-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--cor-roxo);
+}
+
+.navbar__brand-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.navbar__brand-text strong {
+  font-size: var(--tamanho-md);
+  color: var(--cor-roxo);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.navbar__brand-text small {
+  font-size: var(--tamanho-sm);
+  color: var(--cor-texto-suave);
+  font-weight: 400;
+}
+
+/* Link de navegação */
+.navbar__link {
+  font-size: var(--tamanho-base);
+  font-weight: 500;
+  color: var(--cor-texto-suave);
+  padding: var(--espaco-xs) var(--espaco-sm);
+  border-radius: var(--raio-sm);
+  transition: color var(--transicao);
+  margin-left: auto; /* empurra para a direita, antes do botão */
+}
+
+.navbar__link:hover {
+  color: var(--cor-roxo);
+}
+
+/* Botão Saída Rápida */
+.navbar__saida-rapida {
+  display: flex;
+  align-items: center;
+  gap: var(--espaco-xs);
+  padding: var(--espaco-xs) var(--espaco-md);
+  background-color: var(--cor-vermelho);
+  color: var(--cor-texto-claro);
+  font-size: var(--tamanho-sm);
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  border-radius: var(--raio-sm);
+  transition: background-color var(--transicao), transform var(--transicao);
+  flex-shrink: 0;
+}
+
+.navbar__saida-rapida:hover {
+  background-color: var(--cor-vermelho-hover);
+}
+
+.navbar__saida-rapida:active {
+  transform: scale(0.97);
+}
+
+
+/* ------------------------------------------------------------
+   5. FOOTER
+   ------------------------------------------------------------ */
+.footer {
+  background-color: var(--cor-roxo);
+  color: var(--cor-texto-claro);
+  padding: var(--espaco-lg) var(--espaco-xl);
+}
+
+.footer__inner {
+  max-width: var(--largura-maxima);
+  margin: 0 auto;
+  text-align: center;
+}
+
+.footer__inner p {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: var(--tamanho-sm);
+}
+
+.footer__inner strong {
+  color: var(--cor-texto-claro);
+  font-weight: 700;
+}
+
+
+/* ------------------------------------------------------------
+   6. UTILITÁRIOS GLOBAIS
+   Pequenas classes reutilizáveis em qualquer template.
+   ------------------------------------------------------------ */
+
+/* Container padrão */
+.container {
+  max-width: var(--largura-maxima);
+  margin: 0 auto;
+  padding: 0 var(--espaco-xl);
+}
+
+/* Seção genérica com espaçamento vertical */
+.secao {
+  padding: var(--espaco-2xl) var(--espaco-xl);
+}
+
+/* Texto de apoio abaixo de títulos de seção */
+.secao__subtitulo {
+  font-size: var(--tamanho-base);
+  color: var(--cor-texto-suave);
+  margin-top: var(--espaco-xs);
+}
+
+
+/* ------------------------------------------------------------
+   7. RESPONSIVIDADE GLOBAL
+   ------------------------------------------------------------ */
+@media (max-width: 768px) {
+  :root {
+    --tamanho-2xl: 1.5rem;
+    --tamanho-xl:  1.25rem;
+  }
+
+  .navbar__inner {
+    padding: 0 var(--espaco-md);
+    gap: var(--espaco-md);
+  }
+
+  /* Esconde o subtítulo do brand em telas pequenas */
+  .navbar__brand-text small {
+    display: none;
+  }
+
+  .secao {
+    padding: var(--espaco-xl) var(--espaco-md);
+  }
+
+  .container {
+    padding: 0 var(--espaco-md);
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar__link {
+    display: none; /* "Início" some em mobile, logo já é clicável */
+  }
+}
+
+
+/* ------------------------------------------------------------
+   8. ACESSIBILIDADE — MOVIMENTO REDUZIDO
+   ------------------------------------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
