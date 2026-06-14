@@ -57,52 +57,100 @@
    ------------------------------------------------------------ */
 .registro__abas {
   display: flex;
-  gap: 2px;
   overflow-x: auto;
-  scrollbar-width: none;           /* Firefox */
-  -ms-overflow-style: none;        /* IE / Edge */
-  border-bottom: 2px solid var(--cor-borda);
-  margin-bottom: 0;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-md) var(--raio-md) 0 0;
+  background-color: var(--cor-fundo-branco);
 }
 
 .registro__abas::-webkit-scrollbar {
-  display: none;                   /* Chrome / Safari */
+  display: none;
 }
 
 /* Botão de aba individual */
 .registro__aba {
   display: flex;
+  flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: var(--espaco-xs);
-  padding: var(--espaco-sm) var(--espaco-md);
+  flex: 1;
+  padding: var(--espaco-md) var(--espaco-sm);
   background: none;
   border: none;
-  border-bottom: 2px solid transparent;
-  margin-bottom: -2px;             /* Sobrepõe a borda do nav */
+  border-right: 1px solid var(--cor-borda);
   font-size: var(--tamanho-sm);
   font-weight: 500;
   color: var(--cor-texto-suave);
   white-space: nowrap;
   cursor: pointer;
-  transition: color var(--transicao), border-color var(--transicao);
+  transition: background-color var(--transicao), color var(--transicao);
+  min-width: 90px;
 }
 
-.registro__aba:hover {
+.registro__aba:last-child {
+  border-right: none;
+}
+
+.registro__aba:hover:not(.registro__aba--ativa) {
+  background-color: var(--cor-roxo-claro);
   color: var(--cor-roxo);
 }
 
-/* Aba ativa */
-.registro__aba--ativa {
-  color: var(--cor-roxo);
-  border-bottom-color: var(--cor-roxo);
-  font-weight: 600;
-}
-
-.registro__aba-icone {
+/* Número circulado */
+.registro__aba-numero {
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 1.5px solid var(--cor-borda);
+  font-size: var(--tamanho-sm);
+  font-weight: 600;
+  color: var(--cor-texto-suave);
+  background-color: var(--cor-fundo-branco);
+  transition: border-color var(--transicao), background-color var(--transicao), color var(--transicao);
   flex-shrink: 0;
+}
+
+/* Texto da aba */
+.registro__aba-texto {
+  font-size: 0.75rem;
+  text-align: center;
+  line-height: 1.3;
+  white-space: normal;
+  color: var(--cor-texto-suave);
+  transition: color var(--transicao);
+}
+
+/* Aba ativa — fundo roxo, texto branco */
+.registro__aba--ativa {
+  background-color: var(--cor-roxo);
+  color: var(--cor-texto-claro);
+}
+
+.registro__aba--ativa .registro__aba-numero {
+  border-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(255, 255, 255, 0.15);
+  color: var(--cor-texto-claro);
+}
+
+.registro__aba--ativa .registro__aba-texto {
+  color: var(--cor-texto-claro);
+  font-weight: 600;
+}
+
+/* Hover em abas inativas — número acompanha */
+.registro__aba:hover:not(.registro__aba--ativa) .registro__aba-numero {
+  border-color: var(--cor-roxo);
+  color: var(--cor-roxo);
+}
+
+.registro__aba:hover:not(.registro__aba--ativa) .registro__aba-texto {
+  color: var(--cor-roxo);
 }
 
 
@@ -499,12 +547,12 @@
   }
 
   .registro__aba {
-    padding: var(--espaco-sm);
-    font-size: var(--tamanho-sm);
+    padding: var(--espaco-sm) var(--espaco-xs);
+    min-width: 48px;
   }
 
-  /* Esconde o label das abas, mantém só o ícone */
-  .registro__aba span + * {
+  /* Esconde o texto das abas em mobile, mantém só o número */
+  .registro__aba-texto {
     display: none;
   }
 
