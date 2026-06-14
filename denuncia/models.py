@@ -18,12 +18,16 @@ class Denuncia(models.Model):
 
     status = models.CharField(
         choices=StatusDenuncia,
-        max_length=2
+        max_length=2,
+        default=StatusDenuncia.RASCUNHO
+
     )
 
     risco_automatico = models.CharField(
         choices=NivelDeRisco,
-        max_length=2
+        max_length=2,
+        null=True,
+        blank=True
     )
 
     @property
@@ -65,12 +69,7 @@ class DenunciaBaseInfo(models.Model):
     perigo_imediato = models.BooleanField()
     registrou_anteriormente = models.BooleanField()
 
-    situacao_anterior = models.CharField(
-        choices=SituacaoAnterior,
-        max_length=2,
-        null=True,
-        blank=True,
-    )
+    situacao_anterior = models.CharField(max_length=80,null=True,blank=True,)
 
     denunciante_envolvida = models.BooleanField()
 

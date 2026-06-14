@@ -16,7 +16,7 @@ class ConfiguracaoApp(models.Model):
 
 
 class Endereco(models.Model):
-    lagradouro = models.CharField(max_length=100, null=True, blank=True)
+    lagradouro = models.CharField(max_length=150, null=True, blank=True)
     numero = models.CharField(max_length=10, null=True, blank=True)
     bairro = models.CharField(max_length=50, null=True, blank=True)
     cidade = models.CharField(max_length=50, null=True, blank=True)
