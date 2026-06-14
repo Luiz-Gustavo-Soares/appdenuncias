@@ -3,6 +3,7 @@ brotli==1.2.0
 cffi==2.0.0
 cssselect2==0.9.0
 Django==5.2.15
+django-unfold==0.81.0
 fonttools==4.63.0
 pillow==12.2.0
 pycparser==3.0

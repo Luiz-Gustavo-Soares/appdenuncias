@@ -1,4 +1,5 @@
 from django.contrib import admin
+from unfold.admin import ModelAdmin, TabularInline, StackedInline
 from django.urls import path
 from django.utils.html import format_html
 from django.urls import reverse
@@ -11,19 +12,19 @@ from auditoria.models import AuditoriaAdministrativa
 
 
 
-class EvidenciaInline(admin.TabularInline):
+class EvidenciaInline(TabularInline):
     model = Evidencia
     extra = 0
     readonly_fields = ('download',)
 
     
 
-class AuditoriaAdmInline(admin.TabularInline):
+class AuditoriaAdmInline(TabularInline):
     model = AuditoriaAdministrativa
     extra = 0
     can_delete = False
 
-class DenunciaBaseInfoInline(admin.StackedInline):
+class DenunciaBaseInfoInline(StackedInline):
     model = DenunciaBaseInfo
     extra = 0
     can_delete = False
@@ -36,7 +37,7 @@ def tornar_gerente(modeladmin, request, queryset):
 
 
 @admin.register(Denuncia)
-class DenunciaAdmin(admin.ModelAdmin):
+class DenunciaAdmin(ModelAdmin):
     list_display = ('data_criacao', 'risco_automatico', 'auditoria__nivel_risco_corrigido', 'status')
     
     list_filter = ('data_criacao', 'risco_automatico', 'auditoria__nivel_risco_corrigido')
