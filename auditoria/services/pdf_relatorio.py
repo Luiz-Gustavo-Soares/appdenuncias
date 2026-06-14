@@ -1,6 +1,7 @@
 from io import BytesIO
 from django.template.loader import render_to_string
 from weasyprint import HTML
+from django.utils import timezone
 
 
 class GeradorPDFDenuncia:
@@ -11,7 +12,8 @@ class GeradorPDFDenuncia:
             "pdf/denuncia.html",
             {
                 "denuncia": denuncia,
-                "evidencias": denuncia.evidencias.all()
+                "evidencias": denuncia.evidencias.all(),
+                "data_geracao": timezone.now()
             }
         )
 

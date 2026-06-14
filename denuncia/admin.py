@@ -41,9 +41,13 @@ class DenunciaAdmin(admin.ModelAdmin):
     
     list_filter = ('data_criacao', 'risco_automatico', 'auditoria__nivel_risco_corrigido')
     
-    readonly_fields = ("botao_pdf", "botao_revisado")
+    readonly_fields = ("botao_pdf", "revisao")
 
-    inlines = [DenunciaBaseInfoInline, EvidenciaInline, AuditoriaAdmInline,]
+    inlines = [
+        AuditoriaAdmInline,
+        DenunciaBaseInfoInline, 
+        EvidenciaInline, 
+        ]
 
     def has_delete_permission(self, request, obj=None):
         return False
@@ -64,19 +68,25 @@ class DenunciaAdmin(admin.ModelAdmin):
             url
         )
 
-    def botao_revisado(self, obj):
+    def revisao(self, obj):
 
         if not obj.pk:
             return "-"
 
-        url = reverse(
+        url_validar = reverse(
             "admin:validar",
             args=[obj.pk]
         )
 
         return format_html(
-            '<a style="padding: 10px; display: block" class="button" href="{}">Marcar como revisado</a>',
-            url
+            '''
+            <div>
+                <a style="padding: 10px; display: block text-aling: center;" class="button" href="{}">Marcar como Validada</a>
+                <a style="padding: 10px; display: block text-aling: center;" class="button" href="#">Encaminhar</a>
+                <a style="padding: 10px; display: block text-aling: center;" class="button" href="#">Finalizar</a>
+            </div>
+            ''',
+            url_validar
         )
 
 
