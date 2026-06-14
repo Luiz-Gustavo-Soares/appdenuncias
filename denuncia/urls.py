@@ -2,6 +2,8 @@ from django.urls import path
 from denuncia.views import visualizar_evidencia
 from .views import registro, triagem
 
+app_name = 'denuncia'
+
 urlpatterns = [
     path(
         "evidencias/<int:evidencia_id>/",
