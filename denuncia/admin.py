@@ -35,6 +35,7 @@ class DenunciaBaseInfoInline(StackedInline):
 def tornar_gerente(modeladmin, request, queryset):
     queryset.update(cargo='Gerente')
 
+styling_button = "padding: 10px;  text-align: center; margin: 2px 5px 2px 5px; background-color: #b6b6b63b; border-radius:5px;"
 
 @admin.register(Denuncia)
 class DenunciaAdmin(ModelAdmin):
@@ -49,6 +50,8 @@ class DenunciaAdmin(ModelAdmin):
         DenunciaBaseInfoInline, 
         EvidenciaInline, 
         ]
+
+
 
     def has_delete_permission(self, request, obj=None):
         return False
@@ -65,8 +68,8 @@ class DenunciaAdmin(ModelAdmin):
         )
 
         return format_html(
-            '<a style="padding: 10px; display: block" class="button" href="{}">Gerar PDF</a>',
-            url
+            '<a style="{} display: block;" class="button" href="{}">Gerar PDF</a>',
+            styling_button, url
         )
 
     def revisao(self, obj):
@@ -79,15 +82,19 @@ class DenunciaAdmin(ModelAdmin):
             args=[obj.pk]
         )
 
+        
+
         return format_html(
             '''
-            <div>
-                <a style="padding: 10px; display: block text-aling: center;" class="button" href="{}">Marcar como Validada</a>
-                <a style="padding: 10px; display: block text-aling: center;" class="button" href="#">Encaminhar</a>
-                <a style="padding: 10px; display: block text-aling: center;" class="button" href="#">Finalizar</a>
+            <div style="display: flex; align-items: center; justify-content: center;">
+                <a style="{}" class="button" href="{}">Marcar como Validada</a>
+                <a style="{}" class="button" href="#">Encaminhar</a>
+                <a style="{}" class="button" href="#">Finalizar</a>
             </div>
             ''',
-            url_validar
+            styling_button, url_validar,
+            styling_button,
+            styling_button,
         )
 
 

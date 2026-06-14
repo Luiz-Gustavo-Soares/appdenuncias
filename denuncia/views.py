@@ -40,12 +40,12 @@ def marcar_como_validada(request, denuncia_id):
 
         messages.success(
             request,
-            "Denúncia marcada como analisada.",
+            "Denúncia marcada como validada.",
         )
     except RuntimeError as e:
         messages.error(
             request,
-            f"Impossivel Marcar como Revisada. {str(e)}",
+            f"Impossivel Marcar como validada. {str(e)}",
         )
 
     return redirect(

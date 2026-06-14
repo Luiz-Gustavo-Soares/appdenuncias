@@ -62,9 +62,7 @@ class DenunciaBaseInfo(models.Model):
         related_name='base_info'
     )
 
-    nome = models.CharField(max_length=100, null=True, blank=True)
-    cpf = models.CharField(max_length=20, null=True, blank=True)
-
+    perigo_imediato = models.BooleanField()
     registrou_anteriormente = models.BooleanField()
 
     situacao_anterior = models.CharField(
@@ -76,20 +74,12 @@ class DenunciaBaseInfo(models.Model):
 
     denunciante_envolvida = models.BooleanField()
 
-    endereco_vitima = models.OneToOneField(
+    endereco = models.OneToOneField(
         Endereco,
         on_delete=models.PROTECT,
         null=True,
         blank=True,
-        related_name='denuncia_v'
-    )
-
-    endereco_denunciante = models.OneToOneField(
-        Endereco,
-        on_delete=models.PROTECT,
-        null=True,
-        blank=True,
-        related_name='denuncia_d'
+        related_name='denuncia'
     )
 
     def __str__(self):
