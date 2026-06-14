@@ -178,6 +178,12 @@ function decidirProximoPasso(passo, valor) {
       }
       break;
 
+    case '4b':
+      // "Não tenho certeza" — avança sem endereço preenchido
+      estado.endereco = { tipo: 'terceiro', incerto: true };
+      finalizarTriagem();
+      break;
+
     default:
       break;
   }
