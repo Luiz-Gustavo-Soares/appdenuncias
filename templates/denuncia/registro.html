@@ -1,0 +1,518 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Registro de Ocorrência — DEAM{% endblock %}
+
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/registro.css' %}" />
+{% endblock %}
+
+
+{% block content %}
+
+<div class="registro">
+
+  <!-- ===================== CABEÇALHO ===================== -->
+  <div class="registro__cabecalho">
+    <span class="registro__eyebrow">Sistema de Registro</span>
+    <h1 class="registro__titulo">Registro de Ocorrência</h1>
+    <p class="registro__subtitulo">Preencha os campos a seguir. Campos com <span aria-label="obrigatório">*</span> são obrigatórios.</p>
+  </div>
+  <!-- ================= FIM CABEÇALHO ================== -->
+
+
+  <!-- ===================== ABAS ===================== -->
+  <nav class="registro__abas" aria-label="Etapas do registro">
+    <button class="registro__aba registro__aba--ativa" data-etapa="1" aria-selected="true">
+      <span class="registro__aba-icone" aria-hidden="true">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+      </span>
+      Questionário
+    </button>
+    <button class="registro__aba" data-etapa="2" aria-selected="false">
+      <span class="registro__aba-icone" aria-hidden="true">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </span>
+      Dados Básicos
+    </button>
+    <button class="registro__aba" data-etapa="3" aria-selected="false">
+      <span class="registro__aba-icone" aria-hidden="true">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      </span>
+      Dados da Vítima
+    </button>
+    <button class="registro__aba" data-etapa="4" aria-selected="false">
+      <span class="registro__aba-icone" aria-hidden="true">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      </span>
+      Dados do Autor
+    </button>
+    <button class="registro__aba" data-etapa="5" aria-selected="false">
+      <span class="registro__aba-icone" aria-hidden="true">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4l3 5v3h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+      </span>
+      Veículos
+    </button>
+    <button class="registro__aba" data-etapa="6" aria-selected="false">
+      <span class="registro__aba-icone" aria-hidden="true">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+      </span>
+      Objetos
+    </button>
+    <button class="registro__aba" data-etapa="7" aria-selected="false">
+      <span class="registro__aba-icone" aria-hidden="true">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+      </span>
+      Descrição do Fato
+    </button>
+    <button class="registro__aba" data-etapa="8" aria-selected="false">
+      <span class="registro__aba-icone" aria-hidden="true">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      </span>
+      Questões
+    </button>
+    <button class="registro__aba" data-etapa="9" aria-selected="false">
+      <span class="registro__aba-icone" aria-hidden="true">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+      </span>
+      Anexos
+    </button>
+  </nav>
+  <!-- =================== FIM ABAS =================== -->
+
+
+  <!-- ===================== FORM ===================== -->
+<form
+  method="POST"
+  action="{% url 'denuncia:registro' %}"
+  enctype="multipart/form-data"
+  id="form-registro"
+  novalidate
+>
+    {% csrf_token %}
+
+    <div class="registro__painel">
+
+      <!-- -------- ETAPA 1: Questionário -------- -->
+      <section class="registro__etapa" id="etapa-1" aria-labelledby="titulo-etapa-1">
+        <h2 class="registro__etapa-titulo" id="titulo-etapa-1">Questionário inicial</h2>
+        <p class="registro__etapa-descricao">Algumas perguntas para entender melhor a situação.</p>
+
+        <div class="registro__campos">
+
+          <div class="campo">
+            <label class="campo__label" for="relacao_autora">Qual a relação com a pessoa autora? <span class="campo__obrigatorio" aria-hidden="true">*</span></label>
+            <select class="campo__select" id="relacao_autora" name="relacao_autora" required>
+              <option value="" disabled selected>Selecione...</option>
+              <option value="conjuge">Cônjuge / Companheiro(a)</option>
+              <option value="ex_conjuge">Ex-cônjuge / Ex-companheiro(a)</option>
+              <option value="namorado">Namorado(a)</option>
+              <option value="ex_namorado">Ex-namorado(a)</option>
+              <option value="familiar">Familiar</option>
+              <option value="conhecido">Conhecido(a)</option>
+              <option value="desconhecido">Desconhecido(a)</option>
+            </select>
+          </div>
+
+          <div class="campo">
+            <label class="campo__label" for="local_fato">Onde ocorreu o fato? <span class="campo__obrigatorio" aria-hidden="true">*</span></label>
+            <select class="campo__select" id="local_fato" name="local_fato" required>
+              <option value="" disabled selected>Selecione...</option>
+              <option value="residencia_vitima">Residência da vítima</option>
+              <option value="residencia_autor">Residência do autor</option>
+              <option value="residencia_comum">Residência comum</option>
+              <option value="via_publica">Via pública</option>
+              <option value="local_trabalho">Local de trabalho</option>
+              <option value="outro">Outro</option>
+            </select>
+          </div>
+
+          <div class="campo">
+            <label class="campo__label">Há risco iminente à integridade física?</label>
+            <div class="campo__grupo-botoes" role="group" aria-label="Risco iminente">
+              <label class="campo__opcao">
+                <input type="radio" name="risco_iminente" value="sim" />
+                <span>Sim</span>
+              </label>
+              <label class="campo__opcao">
+                <input type="radio" name="risco_iminente" value="nao" />
+                <span>Não</span>
+              </label>
+              <label class="campo__opcao">
+                <input type="radio" name="risco_iminente" value="nao_sei" />
+                <span>Não sei informar</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="campo">
+            <label class="campo__label">Há crianças ou adolescentes envolvidos?</label>
+            <div class="campo__grupo-botoes" role="group" aria-label="Crianças ou adolescentes">
+              <label class="campo__opcao">
+                <input type="radio" name="criancas_envolvidas" value="sim" />
+                <span>Sim</span>
+              </label>
+              <label class="campo__opcao">
+                <input type="radio" name="criancas_envolvidas" value="nao" />
+                <span>Não</span>
+              </label>
+            </div>
+          </div>
+
+        </div>
+      </section>
+      <!-- -------- FIM ETAPA 1 -------- -->
+
+
+      <!-- -------- ETAPA 2: Dados Básicos -------- -->
+      <section class="registro__etapa" id="etapa-2" aria-labelledby="titulo-etapa-2" hidden>
+        <h2 class="registro__etapa-titulo" id="titulo-etapa-2">Dados Básicos</h2>
+        <p class="registro__etapa-descricao">Informações gerais sobre a ocorrência.</p>
+
+        <div class="registro__campos">
+
+          <div class="campo campo--duplo">
+            <label class="campo__label" for="data_fato">Data do fato <span class="campo__obrigatorio" aria-hidden="true">*</span></label>
+            <input class="campo__input" type="date" id="data_fato" name="data_fato" required />
+          </div>
+
+          <div class="campo campo--duplo">
+            <label class="campo__label" for="hora_fato">Hora aproximada</label>
+            <input class="campo__input" type="time" id="hora_fato" name="hora_fato" />
+          </div>
+
+          <div class="campo">
+            <label class="campo__label" for="logradouro_fato">Logradouro do fato <span class="campo__obrigatorio" aria-hidden="true">*</span></label>
+            <input class="campo__input" type="text" id="logradouro_fato" name="logradouro_fato" placeholder="Rua, Avenida, Travessa..." required />
+          </div>
+
+          <div class="campo campo--duplo">
+            <label class="campo__label" for="numero_fato">Número</label>
+            <input class="campo__input" type="text" id="numero_fato" name="numero_fato" placeholder="Nº" />
+          </div>
+
+          <div class="campo campo--duplo">
+            <label class="campo__label" for="bairro_fato">Bairro <span class="campo__obrigatorio" aria-hidden="true">*</span></label>
+            <input class="campo__input" type="text" id="bairro_fato" name="bairro_fato" required />
+          </div>
+
+          <div class="campo campo--duplo">
+            <label class="campo__label" for="cidade_fato">Cidade <span class="campo__obrigatorio" aria-hidden="true">*</span></label>
+            <input class="campo__input" type="text" id="cidade_fato" name="cidade_fato" required />
+          </div>
+
+          <div class="campo campo--duplo">
+            <label class="campo__label" for="estado_fato">Estado <span class="campo__obrigatorio" aria-hidden="true">*</span></label>
+            <input class="campo__input" type="text" id="estado_fato" name="estado_fato" maxlength="2" placeholder="UF" required />
+          </div>
+
+        </div>
+      </section>
+      <!-- -------- FIM ETAPA 2 -------- -->
+
+
+      <!-- -------- ETAPA 3: Dados da Vítima -------- -->
+      <section class="registro__etapa" id="etapa-3" aria-labelledby="titulo-etapa-3" hidden>
+        <h2 class="registro__etapa-titulo" id="titulo-etapa-3">Dados da Vítima</h2>
+        <p class="registro__etapa-descricao">Informações sobre a pessoa que sofreu a violência.</p>
+
+        <div class="registro__campos">
+
+          <div class="campo">
+            <label class="campo__label" for="vitima_nome">Nome completo <span class="campo__obrigatorio" aria-hidden="true">*</span></label>
+            <input class="campo__input" type="text" id="vitima_nome" name="vitima_nome" required />
+          </div>
+
+          <div class="campo campo--duplo">
+            <label class="campo__label" for="vitima_nascimento">Data de nascimento</label>
+            <input class="campo__input" type="date" id="vitima_nascimento" name="vitima_nascimento" />
+          </div>
+
+          <div class="campo campo--duplo">
+            <label class="campo__label" for="vitima_cpf">CPF</label>
+            <input class="campo__input" type="text" id="vitima_cpf" name="vitima_cpf" placeholder="000.000.000-00" maxlength="14" />
+          </div>
+
+          <div class="campo campo--duplo">
+            <label class="campo__label" for="vitima_telefone">Telefone de contato</label>
+            <input class="campo__input" type="tel" id="vitima_telefone" name="vitima_telefone" placeholder="(00) 00000-0000" />
+          </div>
+
+          <div class="campo campo--duplo">
+            <label class="campo__label" for="vitima_email">E-mail</label>
+            <input class="campo__input" type="email" id="vitima_email" name="vitima_email" />
+          </div>
+
+          <div class="campo">
+            <label class="campo__label" for="vitima_endereco">Endereço residencial</label>
+            <input class="campo__input" type="text" id="vitima_endereco" name="vitima_endereco" placeholder="Logradouro, número, bairro, cidade - UF" />
+          </div>
+
+        </div>
+      </section>
+      <!-- -------- FIM ETAPA 3 -------- -->
+
+
+      <!-- -------- ETAPA 4: Dados do Autor -------- -->
+      <section class="registro__etapa" id="etapa-4" aria-labelledby="titulo-etapa-4" hidden>
+        <h2 class="registro__etapa-titulo" id="titulo-etapa-4">Dados do Autor</h2>
+        <p class="registro__etapa-descricao">Informações sobre a pessoa que praticou a violência.</p>
+
+        <div class="registro__campos">
+
+          <div class="campo">
+            <label class="campo__label" for="autor_nome">Nome completo (se souber)</label>
+            <input class="campo__input" type="text" id="autor_nome" name="autor_nome" />
+          </div>
+
+          <div class="campo campo--duplo">
+            <label class="campo__label" for="autor_nascimento">Data de nascimento aproximada</label>
+            <input class="campo__input" type="date" id="autor_nascimento" name="autor_nascimento" />
+          </div>
+
+          <div class="campo campo--duplo">
+            <label class="campo__label" for="autor_cpf">CPF (se souber)</label>
+            <input class="campo__input" type="text" id="autor_cpf" name="autor_cpf" placeholder="000.000.000-00" maxlength="14" />
+          </div>
+
+          <div class="campo">
+            <label class="campo__label" for="autor_caracteristicas">Características físicas</label>
+            <textarea class="campo__textarea" id="autor_caracteristicas" name="autor_caracteristicas" rows="3" placeholder="Altura, cor de cabelo, porte, tatuagens, etc."></textarea>
+          </div>
+
+          <div class="campo">
+            <label class="campo__label" for="autor_endereco">Endereço conhecido do autor</label>
+            <input class="campo__input" type="text" id="autor_endereco" name="autor_endereco" placeholder="Logradouro, número, bairro, cidade - UF" />
+          </div>
+
+        </div>
+      </section>
+      <!-- -------- FIM ETAPA 4 -------- -->
+
+
+      <!-- -------- ETAPA 5: Veículos Envolvidos -------- -->
+      <section class="registro__etapa" id="etapa-5" aria-labelledby="titulo-etapa-5" hidden>
+        <h2 class="registro__etapa-titulo" id="titulo-etapa-5">Veículos Envolvidos</h2>
+        <p class="registro__etapa-descricao">Preencha apenas se houver veículo envolvido na ocorrência.</p>
+
+        <div class="registro__campos">
+
+          <div class="campo campo--duplo">
+            <label class="campo__label" for="veiculo_tipo">Tipo de veículo</label>
+            <select class="campo__select" id="veiculo_tipo" name="veiculo_tipo">
+              <option value="" disabled selected>Selecione...</option>
+              <option value="carro">Carro</option>
+              <option value="moto">Moto</option>
+              <option value="caminhao">Caminhão</option>
+              <option value="onibus">Ônibus</option>
+              <option value="outro">Outro</option>
+            </select>
+          </div>
+
+          <div class="campo campo--duplo">
+            <label class="campo__label" for="veiculo_placa">Placa</label>
+            <input class="campo__input" type="text" id="veiculo_placa" name="veiculo_placa" placeholder="AAA-0000" maxlength="8" />
+          </div>
+
+          <div class="campo campo--duplo">
+            <label class="campo__label" for="veiculo_cor">Cor</label>
+            <input class="campo__input" type="text" id="veiculo_cor" name="veiculo_cor" />
+          </div>
+
+          <div class="campo campo--duplo">
+            <label class="campo__label" for="veiculo_modelo">Modelo / Marca</label>
+            <input class="campo__input" type="text" id="veiculo_modelo" name="veiculo_modelo" />
+          </div>
+
+        </div>
+      </section>
+      <!-- -------- FIM ETAPA 5 -------- -->
+
+
+      <!-- -------- ETAPA 6: Objetos Envolvidos -------- -->
+      <section class="registro__etapa" id="etapa-6" aria-labelledby="titulo-etapa-6" hidden>
+        <h2 class="registro__etapa-titulo" id="titulo-etapa-6">Objetos Envolvidos</h2>
+        <p class="registro__etapa-descricao">Descreva objetos usados na violência ou subtraídos.</p>
+
+        <div class="registro__campos">
+
+          <div class="campo">
+            <label class="campo__label" for="objetos_arma">Arma ou instrumento utilizado</label>
+            <select class="campo__select" id="objetos_arma" name="objetos_arma">
+              <option value="" disabled selected>Selecione...</option>
+              <option value="nenhum">Nenhum</option>
+              <option value="arma_fogo">Arma de fogo</option>
+              <option value="arma_branca">Arma branca</option>
+              <option value="objeto_contundente">Objeto contundente</option>
+              <option value="outro">Outro</option>
+            </select>
+          </div>
+
+          <div class="campo">
+            <label class="campo__label" for="objetos_subtraidos">Objetos subtraídos (roubados ou furtados)</label>
+            <textarea class="campo__textarea" id="objetos_subtraidos" name="objetos_subtraidos" rows="3" placeholder="Descreva os objetos, se houver..."></textarea>
+          </div>
+
+        </div>
+      </section>
+      <!-- -------- FIM ETAPA 6 -------- -->
+
+
+      <!-- -------- ETAPA 7: Descrição do Fato -------- -->
+      <section class="registro__etapa" id="etapa-7" aria-labelledby="titulo-etapa-7" hidden>
+        <h2 class="registro__etapa-titulo" id="titulo-etapa-7">Descrição do Fato</h2>
+        <p class="registro__etapa-descricao">Relate o que aconteceu com o máximo de detalhes que se sentir confortável.</p>
+
+        <div class="registro__campos">
+
+          <div class="campo">
+            <label class="campo__label" for="descricao_fato">Descrição <span class="campo__obrigatorio" aria-hidden="true">*</span></label>
+            <textarea
+              class="campo__textarea campo__textarea--grande"
+              id="descricao_fato"
+              name="descricao_fato"
+              rows="10"
+              placeholder="Descreva o que ocorreu, quando, como e qualquer detalhe relevante..."
+              required
+            ></textarea>
+          </div>
+
+          <div class="campo">
+            <label class="campo__label" for="testemunhas">Há testemunhas? Se sim, informe o nome e contato.</label>
+            <textarea class="campo__textarea" id="testemunhas" name="testemunhas" rows="3" placeholder="Nome e telefone das testemunhas, se houver..."></textarea>
+          </div>
+
+        </div>
+      </section>
+      <!-- -------- FIM ETAPA 7 -------- -->
+
+
+      <!-- -------- ETAPA 8: Questões -------- -->
+      <section class="registro__etapa" id="etapa-8" aria-labelledby="titulo-etapa-8" hidden>
+        <h2 class="registro__etapa-titulo" id="titulo-etapa-8">Questões Complementares</h2>
+        <p class="registro__etapa-descricao">Informações adicionais que auxiliam no atendimento.</p>
+
+        <div class="registro__campos">
+
+          <div class="campo">
+            <label class="campo__label">A violência é recorrente?</label>
+            <div class="campo__grupo-botoes" role="group">
+              <label class="campo__opcao">
+                <input type="radio" name="violencia_recorrente" value="sim" />
+                <span>Sim</span>
+              </label>
+              <label class="campo__opcao">
+                <input type="radio" name="violencia_recorrente" value="nao" />
+                <span>Não</span>
+              </label>
+              <label class="campo__opcao">
+                <input type="radio" name="violencia_recorrente" value="nao_sei" />
+                <span>Não sei</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="campo">
+            <label class="campo__label">Existe medida protetiva em vigor?</label>
+            <div class="campo__grupo-botoes" role="group">
+              <label class="campo__opcao">
+                <input type="radio" name="medida_protetiva" value="sim" />
+                <span>Sim</span>
+              </label>
+              <label class="campo__opcao">
+                <input type="radio" name="medida_protetiva" value="nao" />
+                <span>Não</span>
+              </label>
+              <label class="campo__opcao">
+                <input type="radio" name="medida_protetiva" value="nao_sei" />
+                <span>Não sei</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="campo">
+            <label class="campo__label">A vítima deseja representar criminalmente?</label>
+            <div class="campo__grupo-botoes" role="group">
+              <label class="campo__opcao">
+                <input type="radio" name="representacao_criminal" value="sim" />
+                <span>Sim</span>
+              </label>
+              <label class="campo__opcao">
+                <input type="radio" name="representacao_criminal" value="nao" />
+                <span>Não</span>
+              </label>
+              <label class="campo__opcao">
+                <input type="radio" name="representacao_criminal" value="nao_sei" />
+                <span>Não sei ainda</span>
+              </label>
+            </div>
+          </div>
+
+        </div>
+      </section>
+      <!--  FIM ETAPA 8  -->
+
+
+      <!--  ETAPA 9: Anexos  -->
+      <section class="registro__etapa" id="etapa-9" aria-labelledby="titulo-etapa-9" hidden>
+        <h2 class="registro__etapa-titulo" id="titulo-etapa-9">Anexos</h2>
+        <p class="registro__etapa-descricao">Envie fotos, prints ou documentos que comprovem a ocorrência. Não obrigatório.</p>
+
+        <div class="registro__campos">
+
+          <div class="campo">
+            <label class="campo__label" for="anexos">Arquivos</label>
+            <div class="campo__upload" id="area-upload">
+              <input
+                class="campo__upload-input"
+                type="file"
+                id="anexos"
+                name="anexos"
+                multiple
+                accept="image/*,.pdf,.doc,.docx"
+              />
+              <span class="campo__upload-icone" aria-hidden="true">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              </span>
+              <p class="campo__upload-texto">Clique para selecionar ou arraste os arquivos aqui</p>
+              <p class="campo__upload-info">Imagens, PDF, DOC — máximo 10 MB por arquivo</p>
+            </div>
+            <ul class="campo__upload-lista" id="lista-anexos" aria-live="polite"></ul>
+          </div>
+
+        </div>
+      </section>
+      <!-- FIM ETAPA 9  -->
+
+    </div>
+    <!-- fim registro__painel -->
+
+
+    <!-- ===================== RODAPÉ DE NAVEGAÇÃO ===================== -->
+    <div class="registro__navegacao">
+      <button type="button" class="registro__btn-retornar" id="btn-retornar" disabled>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+        Retornar
+      </button>
+
+      <span class="registro__contador" id="registro-contador" aria-live="polite">Etapa 1 de 9</span>
+
+      <button type="button" class="registro__btn-continuar" id="btn-continuar">
+        Continuar
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    </div>
+    <!-- ================= FIM RODAPÉ DE NAVEGAÇÃO ================= -->
+
+  </form>
+  <!-- =================== FIM FORM =================== -->
+
+</div>
+<!-- fim .registro -->
+
+{% endblock %}
+
+
+{% block js %}
+  <script src="{% static 'js/registro.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,635 @@
+/* ============================================================
+   landing.css — Estilos exclusivos da landing page (index.html)
+   Depende das variáveis definidas em base.css.
+   Seções: Hero, Painel de Triagem, Central de Apoio,
+           Orientações de Segurança, Banner de Direitos.
+   ============================================================ */
+
+
+/* ------------------------------------------------------------
+   1. HERO
+   ------------------------------------------------------------ */
+.hero {
+  background-color: var(--cor-roxo);
+  padding: var(--espaco-2xl) var(--espaco-xl);
+}
+
+.hero__inner {
+  max-width: var(--largura-maxima);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 420px;
+  gap: var(--espaco-2xl);
+  align-items: center;
+}
+
+/* Texto do hero */
+.hero__titulo {
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: var(--cor-texto-claro);
+  line-height: 1.2;
+  margin-bottom: var(--espaco-md);
+}
+
+.hero__titulo--destaque {
+  color: var(--cor-laranja);
+}
+
+.hero__descricao {
+  color: rgba(255, 255, 255, 0.80);
+  font-size: var(--tamanho-base);
+  line-height: 1.7;
+  margin-bottom: var(--espaco-lg);
+}
+
+.hero__selo {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--espaco-xs);
+  color: rgba(255, 255, 255, 0.65);
+  font-size: var(--tamanho-sm);
+}
+
+.hero__selo svg {
+  flex-shrink: 0;
+}
+
+
+/* ------------------------------------------------------------
+   2. PAINEL DE TRIAGEM
+   ------------------------------------------------------------ */
+.hero__painel {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.painel-triagem {
+  background-color: var(--cor-fundo-branco);
+  border-radius: var(--raio-lg);
+  box-shadow: var(--sombra-md);
+  width: 100%;
+  max-width: 420px;
+  overflow: hidden;
+}
+
+/* Cabeçalho: Voltar + label do passo */
+.painel-triagem__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--espaco-sm) var(--espaco-md);
+  background-color: #f0f0f0;
+  border-bottom: 1px solid var(--cor-borda);
+}
+
+.painel-triagem__voltar {
+  font-size: var(--tamanho-sm);
+  font-weight: 500;
+  color: var(--cor-roxo);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: var(--espaco-xs) var(--espaco-sm);
+  border-radius: var(--raio-sm);
+  transition: opacity var(--transicao);
+}
+
+.painel-triagem__voltar:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.painel-triagem__voltar:not(:disabled):hover {
+  opacity: 0.75;
+}
+
+.painel-triagem__passo {
+  font-size: var(--tamanho-sm);
+  font-weight: 600;
+  color: var(--cor-texto-suave);
+}
+
+/* Barra de progresso */
+.painel-triagem__barra {
+  height: 3px;
+  background-color: var(--cor-borda);
+}
+
+.painel-triagem__barra-fill {
+  height: 100%;
+  background-color: var(--cor-laranja);
+  transition: width 0.35s ease;
+}
+
+/* Conteúdo de cada passo */
+.painel-triagem__passo-conteudo {
+  padding: var(--espaco-lg) var(--espaco-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-md);
+}
+
+/* Pergunta principal */
+.painel-triagem__pergunta {
+  font-size: var(--tamanho-base);
+  font-weight: 500;
+  color: var(--cor-texto);
+  line-height: 1.55;
+}
+
+.painel-triagem__pergunta--alerta {
+  color: var(--cor-vermelho);
+}
+
+/* Texto informativo secundário */
+.painel-triagem__info {
+  font-size: var(--tamanho-sm);
+  color: var(--cor-texto-suave);
+  line-height: 1.6;
+}
+
+/* Grupo de botões de opção */
+.painel-triagem__opcoes {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-sm);
+}
+
+/* Botão de opção padrão (Sim / Não / Eu mesma etc.) */
+.painel-triagem__opcao {
+  width: 100%;
+  padding: var(--espaco-sm) var(--espaco-md);
+  background-color: var(--cor-fundo-branco);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-sm);
+  font-size: var(--tamanho-base);
+  font-weight: 500;
+  color: var(--cor-texto);
+  text-align: center;
+  cursor: pointer;
+  transition: border-color var(--transicao), background-color var(--transicao), color var(--transicao);
+}
+
+.painel-triagem__opcao:hover {
+  border-color: var(--cor-roxo);
+  background-color: var(--cor-roxo-claro);
+  color: var(--cor-roxo);
+}
+
+/* Variante bloco: texto principal + subtexto (passo 2b) */
+.painel-triagem__opcao--bloco {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  text-align: center;
+  padding: var(--espaco-md);
+}
+
+.painel-triagem__opcao--bloco small {
+  font-size: var(--tamanho-sm);
+  font-weight: 400;
+  color: var(--cor-texto-suave);
+}
+
+.painel-triagem__opcao--bloco:hover small {
+  color: var(--cor-roxo);
+  opacity: 0.8;
+}
+
+/* Variante secundária (Não tenho certeza) */
+.painel-triagem__opcao--secundario {
+  background-color: transparent;
+  border-color: transparent;
+  color: var(--cor-texto-suave);
+  font-size: var(--tamanho-sm);
+}
+
+.painel-triagem__opcao--secundario:hover {
+  background-color: transparent;
+  border-color: transparent;
+  color: var(--cor-roxo);
+}
+
+/* Grid de campos de endereço */
+.painel-triagem__endereco {
+  display: grid;
+  grid-template-columns: 1fr 80px 1fr;
+  gap: var(--espaco-sm);
+}
+
+/* Inputs de endereço */
+.painel-triagem__input {
+  width: 100%;
+  padding: var(--espaco-sm) var(--espaco-sm);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-sm);
+  font-family: var(--fonte-base);
+  font-size: var(--tamanho-sm);
+  color: var(--cor-texto);
+  background-color: var(--cor-fundo-branco);
+  transition: border-color var(--transicao), box-shadow var(--transicao);
+}
+
+.painel-triagem__input::placeholder {
+  color: #AAAAAA;
+}
+
+.painel-triagem__input:focus {
+  outline: none;
+  border-color: var(--cor-roxo);
+  box-shadow: 0 0 0 3px rgba(92, 45, 145, 0.12);
+}
+
+/* Modificadores de largura dos inputs */
+.painel-triagem__input--largo {
+  grid-column: span 3;
+}
+
+.painel-triagem__input--medio {
+  grid-column: span 1;
+}
+
+.painel-triagem__input--curto {
+  grid-column: span 1;
+}
+
+/* Botão "Continuar" do passo de endereço */
+.painel-triagem__avancar {
+  width: 100%;
+  padding: var(--espaco-sm) var(--espaco-md);
+  background-color: var(--cor-roxo);
+  color: var(--cor-texto-claro);
+  border: none;
+  border-radius: var(--raio-sm);
+  font-size: var(--tamanho-base);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color var(--transicao), transform var(--transicao);
+}
+
+.painel-triagem__avancar:hover {
+  background-color: var(--cor-roxo-escuro);
+}
+
+.painel-triagem__avancar:active {
+  transform: scale(0.98);
+}
+
+
+/* ------------------------------------------------------------
+   3. CENTRAL DE APOIO
+   ------------------------------------------------------------ */
+.central-apoio {
+  background-color: var(--cor-fundo);
+}
+
+.central-apoio__titulo {
+  margin-bottom: var(--espaco-xs);
+}
+
+.central-apoio__cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--espaco-md);
+  margin-top: var(--espaco-xl);
+}
+
+/* Card individual */
+.apoio-card {
+  background-color: var(--cor-fundo-branco);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-md);
+  padding: var(--espaco-lg) var(--espaco-md);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--espaco-sm);
+  text-align: center;
+  transition: box-shadow var(--transicao), transform var(--transicao);
+}
+
+.apoio-card:hover {
+  box-shadow: var(--sombra-md);
+  transform: translateY(-2px);
+}
+
+.apoio-card__icone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  background-color: var(--cor-roxo-claro);
+  border-radius: 50%;
+  color: var(--cor-roxo);
+  margin-bottom: var(--espaco-xs);
+}
+
+.apoio-card__titulo {
+  font-size: var(--tamanho-md);
+  font-weight: 700;
+  color: var(--cor-texto);
+}
+
+.apoio-card__descricao {
+  font-size: var(--tamanho-sm);
+  color: var(--cor-texto-suave);
+  line-height: 1.4;
+}
+
+.apoio-card__badge {
+  display: inline-block;
+  margin-top: var(--espaco-xs);
+  padding: 2px var(--espaco-sm);
+  background-color: var(--cor-roxo-claro);
+  color: var(--cor-roxo);
+  border-radius: 99px;
+  font-size: var(--tamanho-sm);
+  font-weight: 500;
+}
+
+.apoio-card__badge--urgente {
+  background-color: #FFEBEE;
+  color: var(--cor-vermelho);
+}
+
+
+/* ------------------------------------------------------------
+   4. ORIENTAÇÕES DE SEGURANÇA
+   ------------------------------------------------------------ */
+.orientacoes {
+  background-color: var(--cor-fundo-branco);
+}
+
+.orientacoes__inner {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: var(--espaco-2xl);
+  align-items: start;
+}
+
+.orientacoes__titulo {
+  margin-bottom: var(--espaco-lg);
+}
+
+.orientacoes__lista {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-md);
+}
+
+.orientacoes__item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--espaco-sm);
+  font-size: var(--tamanho-base);
+  color: var(--cor-texto-suave);
+  line-height: 1.5;
+}
+
+.orientacoes__icone {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--cor-roxo-claro);
+  color: var(--cor-roxo);
+  border-radius: 50%;
+  font-size: 11px;
+  font-weight: 700;
+  margin-top: 1px;
+}
+
+
+/* ------------------------------------------------------------
+   5. BANNER: SEUS DIREITOS
+   ------------------------------------------------------------ */
+.direitos-banner {
+  position: relative;
+  background-color: var(--cor-fundo-branco);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-md);
+  padding: var(--espaco-lg);
+  box-shadow: var(--sombra-sm);
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-sm);
+}
+
+.direitos-banner__fechar {
+  position: absolute;
+  top: var(--espaco-sm);
+  right: var(--espaco-sm);
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  color: var(--cor-texto-suave);
+  background: none;
+  border: none;
+  cursor: pointer;
+  border-radius: var(--raio-sm);
+  transition: color var(--transicao), background-color var(--transicao);
+}
+
+.direitos-banner__fechar:hover {
+  color: var(--cor-texto);
+  background-color: var(--cor-fundo);
+}
+
+.direitos-banner__titulo {
+  font-size: var(--tamanho-md);
+  font-weight: 700;
+  color: var(--cor-texto);
+}
+
+.direitos-banner__texto {
+  font-size: var(--tamanho-sm);
+  color: var(--cor-texto-suave);
+  line-height: 1.6;
+}
+
+.direitos-banner__link {
+  display: inline-block;
+  margin-top: var(--espaco-xs);
+  padding: var(--espaco-xs) var(--espaco-md);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-sm);
+  font-size: var(--tamanho-sm);
+  font-weight: 500;
+  color: var(--cor-texto);
+  text-align: center;
+  transition: border-color var(--transicao), color var(--transicao);
+}
+
+.direitos-banner__link:hover {
+  border-color: var(--cor-roxo);
+  color: var(--cor-roxo);
+}
+
+
+/* ------------------------------------------------------------
+   6. MODAL DE INSTRUÇÕES
+   ------------------------------------------------------------ */
+
+/* Overlay escuro atrás do modal */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 200;
+}
+
+/* Caixa do modal centralizada */
+.modal-instrucoes {
+  position: fixed;
+  inset: 0;
+  z-index: 201;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--espaco-md);
+}
+
+.modal-instrucoes__caixa {
+  background-color: var(--cor-fundo-branco);
+  border-radius: var(--raio-lg);
+  box-shadow: var(--sombra-md);
+  width: 100%;
+  max-width: 520px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Corpo com scroll se o conteúdo for longo */
+.modal-instrucoes__corpo {
+  padding: var(--espaco-xl);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-md);
+}
+
+.modal-instrucoes__titulo {
+  font-size: var(--tamanho-lg);
+  font-weight: 700;
+  color: var(--cor-texto);
+  padding-bottom: var(--espaco-md);
+  border-bottom: 1px solid var(--cor-borda);
+}
+
+.modal-instrucoes__secao-titulo {
+  font-size: var(--tamanho-base);
+  font-weight: 700;
+  color: var(--cor-roxo);
+  margin-top: var(--espaco-sm);
+}
+
+.modal-instrucoes__texto {
+  font-size: var(--tamanho-sm);
+  color: var(--cor-texto-suave);
+  line-height: 1.65;
+}
+
+.modal-instrucoes__lista {
+  padding-left: var(--espaco-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-xs);
+}
+
+.modal-instrucoes__lista li {
+  list-style: disc;
+  font-size: var(--tamanho-sm);
+  color: var(--cor-texto-suave);
+  line-height: 1.6;
+  padding-left: var(--espaco-xs);
+}
+
+/* Rodapé com botão Iniciar */
+.modal-instrucoes__rodape {
+  padding: var(--espaco-md) var(--espaco-xl);
+  border-top: 1px solid var(--cor-borda);
+  display: flex;
+  justify-content: flex-end;
+}
+
+.modal-instrucoes__btn-iniciar {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--espaco-xs);
+  padding: var(--espaco-sm) var(--espaco-xl);
+  background-color: var(--cor-roxo);
+  color: var(--cor-texto-claro);
+  border-radius: var(--raio-sm);
+  font-size: var(--tamanho-base);
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color var(--transicao), transform var(--transicao);
+}
+
+.modal-instrucoes__btn-iniciar:hover {
+  background-color: var(--cor-roxo-escuro);
+}
+
+.modal-instrucoes__btn-iniciar:active {
+  transform: scale(0.98);
+}
+
+
+/* ------------------------------------------------------------
+   7. RESPONSIVIDADE
+   ------------------------------------------------------------ */
+@media (max-width: 960px) {
+  /* Hero empilha verticalmente */
+  .hero__inner {
+    grid-template-columns: 1fr;
+  }
+
+  .hero__painel {
+    justify-content: center;
+  }
+
+  /* Cards de apoio: 2 colunas */
+  .central-apoio__cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Orientações: empilha banner abaixo */
+  .orientacoes__inner {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .hero {
+    padding: var(--espaco-xl) var(--espaco-md);
+  }
+
+  .hero__titulo {
+    font-size: 1.75rem;
+  }
+
+  /* Cards de apoio: 1 coluna */
+  .central-apoio__cards {
+    grid-template-columns: 1fr;
+  }
+
+  /* Grid de endereço: coluna única */
+  .painel-triagem__endereco {
+    grid-template-columns: 1fr;
+  }
+
+  .painel-triagem__input--largo,
+  .painel-triagem__input--medio,
+  .painel-triagem__input--curto {
+    grid-column: span 1;
+  }
+}

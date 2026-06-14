@@ -8,6 +8,8 @@ from appdenuncias.view import my_view, my_view_parametros
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', index, name='index'),
+
     path('denuncia/', include('denuncia.urls')),
 ]
 

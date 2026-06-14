@@ -1,0 +1,210 @@
+{% load static %}
+
+<div class="painel-triagem">
+  <div class="painel-triagem__header">
+    <button
+      type="button"
+      class="painel-triagem__voltar"
+      id="painel-voltar"
+      disabled
+      aria-label="Voltar ao passo anterior"
+    >
+      &#8592; Voltar
+    </button>
+    <span class="painel-triagem__passo" id="painel-passo-label">Passo 1</span>
+  </div>
+
+  <!-- Barra de progresso -->
+  <div class="painel-triagem__barra" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="4">
+    <div class="painel-triagem__barra-fill" id="painel-barra-fill" style="width: 25%;"></div>
+  </div>
+
+  <!-- Passo 1: Perigo imediato -->
+  <div class="painel-triagem__passo-conteudo" id="passo-1">
+    <p class="painel-triagem__pergunta">
+      Você ou outra pessoa está em situação de perigo imediato ou sofreu algum ferimento?
+    </p>
+    <div class="painel-triagem__opcoes">
+      <button type="button" class="painel-triagem__opcao" data-passo="1" data-valor="sim">Sim</button>
+      <button type="button" class="painel-triagem__opcao" data-passo="1" data-valor="nao">Não</button>
+    </div>
+  </div>
+
+  <!-- Passo 2: Ocorrência anterior -->
+  <div class="painel-triagem__passo-conteudo" id="passo-2" hidden>
+    <p class="painel-triagem__pergunta">
+      Você já registrou uma denúncia ou ocorrência sobre este caso anteriormente?
+    </p>
+    <div class="painel-triagem__opcoes">
+      <button type="button" class="painel-triagem__opcao" data-passo="2" data-valor="sim">Sim</button>
+      <button type="button" class="painel-triagem__opcao" data-passo="2" data-valor="nao">Não</button>
+    </div>
+  </div>
+
+  <!-- Passo 2b: Situação anterior em andamento -->
+  <div class="painel-triagem__passo-conteudo" id="passo-2b" hidden>
+    <p class="painel-triagem__pergunta">
+      A situação anterior ainda está em andamento ou foi encerrada?
+    </p>
+    <div class="painel-triagem__opcoes">
+      <button type="button" class="painel-triagem__opcao painel-triagem__opcao--bloco" data-passo="2b" data-valor="encerrada">
+        A ocorrência anterior foi encerrada
+        <small>e desejo registrar uma nova denúncia</small>
+      </button>
+      <button type="button" class="painel-triagem__opcao painel-triagem__opcao--bloco" data-passo="2b" data-valor="andamento">
+        A ocorrência ainda está em andamento
+        <small>e desejo atualizar ou acrescentar informações</small>
+      </button>
+      <button type="button" class="painel-triagem__opcao" data-passo="2b" data-valor="incerto">
+        Não tenho certeza
+      </button>
+    </div>
+  </div>
+
+  <!-- Passo 3: Quem é a vítima -->
+  <div class="painel-triagem__passo-conteudo" id="passo-3" hidden>
+    <p class="painel-triagem__pergunta">
+      A denúncia é sobre uma situação que envolve você ou outra pessoa?
+    </p>
+    <div class="painel-triagem__opcoes">
+      <button type="button" class="painel-triagem__opcao" data-passo="3" data-valor="eu-mesma">Eu mesma</button>
+      <button type="button" class="painel-triagem__opcao" data-passo="3" data-valor="outra-pessoa">Outra pessoa</button>
+    </div>
+  </div>
+
+  <!-- Passo 4a: Endereço próprio -->
+  <div class="painel-triagem__passo-conteudo" id="passo-4a" hidden>
+    <p class="painel-triagem__pergunta">Qual é o seu endereço?</p>
+    <p class="painel-triagem__info">
+      Precisamos do endereço para direcionar sua denúncia à autoridade policial responsável pela região.
+      Não iremos até o local informado, exceto em situações de risco imediato.
+    </p>
+    <div class="painel-triagem__endereco">
+      <input type="text" class="painel-triagem__input painel-triagem__input--largo"  placeholder="Logradouro"  id="end-logradouro" />
+      <input type="text" class="painel-triagem__input painel-triagem__input--curto"  placeholder="Número"      id="end-numero"     />
+      <input type="text" class="painel-triagem__input painel-triagem__input--medio"  placeholder="Bairro"      id="end-bairro"     />
+      <input type="text" class="painel-triagem__input painel-triagem__input--medio"  placeholder="Cidade"      id="end-cidade"     />
+      <input type="text" class="painel-triagem__input painel-triagem__input--curto"  placeholder="Estado"      id="end-estado"     />
+      <input type="text" class="painel-triagem__input painel-triagem__input--largo"  placeholder="Complemento" id="end-complemento"/>
+    </div>
+    <button type="button" class="painel-triagem__avancar" id="btn-avancar-4a">
+      Continuar
+    </button>
+  </div>
+
+  <!-- Passo 4b: Endereço de outra pessoa -->
+  <div class="painel-triagem__passo-conteudo" id="passo-4b" hidden>
+    <p class="painel-triagem__pergunta">Qual é o endereço da pessoa?</p>
+    <p class="painel-triagem__info">
+      Precisamos do endereço para direcionar sua denúncia à autoridade policial responsável pela região.
+      Não iremos até o local informado, exceto em situações de risco imediato.
+    </p>
+    <div class="painel-triagem__endereco">
+      <input type="text" class="painel-triagem__input painel-triagem__input--largo"  placeholder="Logradouro"  id="end2-logradouro" />
+      <input type="text" class="painel-triagem__input painel-triagem__input--curto"  placeholder="Número"      id="end2-numero"     />
+      <input type="text" class="painel-triagem__input painel-triagem__input--medio"  placeholder="Bairro"      id="end2-bairro"     />
+      <input type="text" class="painel-triagem__input painel-triagem__input--medio"  placeholder="Cidade"      id="end2-cidade"     />
+      <input type="text" class="painel-triagem__input painel-triagem__input--curto"  placeholder="Estado"      id="end2-estado"     />
+      <input type="text" class="painel-triagem__input painel-triagem__input--largo"  placeholder="Complemento" id="end2-complemento"/>
+    </div>
+    <button type="button" class="painel-triagem__opcao painel-triagem__opcao--secundario" data-passo="4b" data-valor="incerto">
+      Não tenho certeza
+    </button>
+    <button type="button" class="painel-triagem__avancar" id="btn-avancar-4b">
+      Continuar
+    </button>
+  </div>
+
+  <!-- Aviso: perigo imediato (passo 1 = Sim) -->
+  <div class="painel-triagem__passo-conteudo" id="passo-perigo" hidden>
+    <p class="painel-triagem__pergunta painel-triagem__pergunta--alerta">
+      Se você ou outra pessoa estiver em perigo imediato ou tiver sofrido ferimentos,
+      ligue para a Polícia Militar pelo número <strong>190</strong> agora.
+    </p>
+    <p class="painel-triagem__info">
+      Nossa equipe registrará algumas informações iniciais e orientará você sobre os próximos passos da denúncia.
+    </p>
+  </div>
+
+</div>
+<!-- fim .painel-triagem -->
+
+
+<!-- ===================== MODAL DE INSTRUÇÕES ===================== -->
+<div class="modal-instrucoes" id="modal-instrucoes" hidden aria-modal="true" role="dialog" aria-labelledby="modal-titulo">
+  <div class="modal-instrucoes__caixa">
+
+    <div class="modal-instrucoes__corpo">
+
+      <h2 class="modal-instrucoes__titulo" id="modal-titulo">Denuncie violência doméstica</h2>
+
+      <h3 class="modal-instrucoes__secao-titulo">Como denunciar</h3>
+      <p class="modal-instrucoes__texto">Você pode denunciar uma situação de violência doméstica das seguintes formas:</p>
+      <ul class="modal-instrucoes__lista">
+        <li>Em caso de emergência, se você ou outra pessoa estiver em perigo imediato, ligue para o <strong>190</strong> (Polícia Militar).</li>
+        <li>Preenchendo o formulário de denúncia online abaixo.</li>
+        <li>Entrando em contato pelo <strong>Disque 180</strong> (Central de Atendimento à Mulher).</li>
+      </ul>
+
+      <h3 class="modal-instrucoes__secao-titulo">Informações que serão solicitadas</h3>
+      <ul class="modal-instrucoes__lista">
+        <li>Dados de contato (incluindo a forma mais segura de entrarmos em contato com você).</li>
+        <li>Informações sobre a pessoa que está sofrendo a violência ou sobre quem você deseja denunciar.</li>
+        <li>Detalhes sobre o que aconteceu e os motivos da sua preocupação.</li>
+        <li>Informações sobre a pessoa denunciada (informe o máximo que souber).</li>
+      </ul>
+
+      <h3 class="modal-instrucoes__secao-titulo">O que acontecerá com sua denúncia online</h3>
+      <p class="modal-instrucoes__texto">
+        Sua denúncia será encaminhada para a equipe responsável pelo recebimento e análise das informações.
+        O registro será avaliado e direcionado aos órgãos competentes conforme a natureza da situação e a localização informada.
+        Entraremos em contato conforme a forma de comunicação escolhida por você, quando necessário e possível.
+      </p>
+
+      <h3 class="modal-instrucoes__secao-titulo">Tempo estimado para preencher este formulário</h3>
+      <p class="modal-instrucoes__texto"><strong>Tempo médio de preenchimento: 10 a 15 minutos.</strong></p>
+      <p class="modal-instrucoes__texto">Quando estiver pronta(o), clique em "Iniciar" para começar.</p>
+
+    </div>
+
+    <div class="modal-instrucoes__rodape">
+      <button
+        type="button"
+        class="modal-instrucoes__btn-iniciar"
+        id="btn-iniciar"
+      >
+        Iniciar
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <polyline points="9 18 15 12 9 6"/>
+        </svg>
+      </button>
+    </div>
+
+  </div>
+</div>
+<!-- ================= FIM MODAL DE INSTRUÇÕES ================= -->
+
+<!-- Overlay do modal -->
+<div class="modal-overlay" id="modal-overlay" hidden></div>
+
+<!-- ===================== FORM OCULTO DA TRIAGEM ===================== -->
+<!-- Preenchido pelo triagem.js antes de submeter -->
+<form
+  method="POST"
+  action="{% url 'denuncia:triagem' %}"
+  id="form-triagem"
+  hidden
+>
+  {% csrf_token %}
+  <input type="hidden" name="perigo_imediato"      id="f-perigo-imediato" />
+  <input type="hidden" name="ocorrencia_anterior"  id="f-ocorrencia-anterior" />
+  <input type="hidden" name="situacao_anterior"    id="f-situacao-anterior" />
+  <input type="hidden" name="vitima"               id="f-vitima" />
+  <input type="hidden" name="end_logradouro"       id="f-end-logradouro" />
+  <input type="hidden" name="end_numero"           id="f-end-numero" />
+  <input type="hidden" name="end_bairro"           id="f-end-bairro" />
+  <input type="hidden" name="end_cidade"           id="f-end-cidade" />
+  <input type="hidden" name="end_estado"           id="f-end-estado" />
+  <input type="hidden" name="end_complemento"      id="f-end-complemento" />
+</form>
+<!-- ================= FIM FORM OCULTO ================= -->

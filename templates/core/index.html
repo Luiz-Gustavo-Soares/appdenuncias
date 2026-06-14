@@ -1,0 +1,161 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}DEAM — Denúncia Online de Violência à Mulher{% endblock %}
+
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/landing.css' %}" />
+{% endblock %}
+
+
+{% block content %}
+
+  <!-- ===================== HERO ===================== -->
+  <section class="hero">
+    <div class="hero__inner">
+
+      <!-- Lado esquerdo: texto -->
+      <div class="hero__texto">
+        <h1 class="hero__titulo">
+          Você não está sozinha.<br>
+          <span class="hero__titulo--destaque">Denuncie.</span> Nós podemos ajudar.
+        </h1>
+        <p class="hero__descricao">
+          Registre sua ocorrência de forma segura e confidencial.<br>
+          Sua denúncia pode salvar vidas. Utilize o formulário ao lado para começar.
+        </p>
+        <span class="hero__selo">
+          <!-- Ícone cadeado -->
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect x="2" y="6" width="10" height="7" rx="1.5" stroke="currentColor" stroke-width="1.3"/>
+            <path d="M4.5 6V4.5a2.5 2.5 0 0 1 5 0V6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+          </svg>
+          Ambiente seguro e confidencial
+        </span>
+      </div>
+
+      <!-- Lado direito: painel de triagem (fragmento incluído) -->
+      <div class="hero__painel">
+        {% include 'denuncia/triagem.html' %}
+      </div>
+      <!-- fim hero__painel -->
+
+    </div>
+  </section>
+  <!-- =================== FIM HERO =================== -->
+
+
+  <!-- =============== CENTRAL DE APOIO =============== -->
+  <section class="secao central-apoio" id="central-apoio">
+    <div class="container">
+      <h2 class="central-apoio__titulo">Central de Apoio</h2>
+      <p class="secao__subtitulo">Canais de ajuda e orientação disponíveis 24h por dia.</p>
+
+      <div class="central-apoio__cards">
+
+        <div class="apoio-card">
+          <span class="apoio-card__icone" aria-hidden="true">
+            <!-- Ícone telefone -->
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M6.6 10.8C7.8 13.2 9.8 15.2 12.2 16.4L14 14.6C14.2 14.4 14.6 14.4 14.8 14.6C15.8 15 16.8 15.2 18 15.2C18.4 15.2 18.8 15.6 18.8 16V18C18.8 18.4 18.4 18.8 18 18.8C10.4 18.8 4.2 12.6 4.2 5C4.2 4.6 4.6 4.2 5 4.2H7C7.4 4.2 7.8 4.6 7.8 5C7.8 6.2 8 7.2 8.4 8.2C8.6 8.4 8.6 8.8 8.4 9L6.6 10.8Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+          <strong class="apoio-card__titulo">Ligue 180</strong>
+          <span class="apoio-card__descricao">Central de Atendimento à Mulher</span>
+          <span class="apoio-card__badge">24 horas · Gratuito</span>
+        </div>
+
+        <div class="apoio-card">
+          <span class="apoio-card__icone" aria-hidden="true">
+            <!-- Ícone escudo -->
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2L4 5.5V11C4 15.55 7.4 19.74 12 21C16.6 19.74 20 15.55 20 11V5.5L12 2Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+              <path d="M9 12L11 14L15 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+          <strong class="apoio-card__titulo">190</strong>
+          <span class="apoio-card__descricao">Polícia Militar</span>
+          <span class="apoio-card__badge apoio-card__badge--urgente">Emergência</span>
+        </div>
+
+        <div class="apoio-card">
+          <span class="apoio-card__icone" aria-hidden="true">
+            <!-- Ícone prédio/delegacia -->
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="3" y="7" width="18" height="14" rx="1" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M9 21V13H15V21" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              <path d="M3 7L12 3L21 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+          <strong class="apoio-card__titulo">Delegacias da Mulher</strong>
+          <span class="apoio-card__descricao">Encontre a delegacia mais próxima</span>
+        </div>
+
+        <div class="apoio-card">
+          <span class="apoio-card__icone" aria-hidden="true">
+            <!-- Ícone casa -->
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M3 10.5L12 3L21 10.5V20C21 20.6 20.6 21 20 21H15V16H9V21H4C3.4 21 3 20.6 3 20V10.5Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+            </svg>
+          </span>
+          <strong class="apoio-card__titulo">Casas de Acolhimento</strong>
+          <span class="apoio-card__descricao">Abrigo seguro e apoio psicológico</span>
+        </div>
+
+      </div>
+    </div>
+  </section>
+  <!-- ============= FIM CENTRAL DE APOIO ============= -->
+
+
+  <!-- ============= ORIENTAÇÕES DE SEGURANÇA ========= -->
+  <section class="secao orientacoes" id="orientacoes">
+    <div class="container orientacoes__inner">
+
+      <!-- Lista de orientações -->
+      <div class="orientacoes__lista-wrapper">
+        <h2 class="orientacoes__titulo">Orientações de Segurança</h2>
+        <ul class="orientacoes__lista">
+          <li class="orientacoes__item">
+            <span class="orientacoes__icone" aria-hidden="true">&#10003;</span>
+            Se estiver em perigo, ligue 190.
+          </li>
+          <li class="orientacoes__item">
+            <span class="orientacoes__icone" aria-hidden="true">&#10003;</span>
+            Guarde evidências: fotos, mensagens, documentos.
+          </li>
+          <li class="orientacoes__item">
+            <span class="orientacoes__icone" aria-hidden="true">&#10003;</span>
+            Converse com pessoas de confiança.
+          </li>
+          <li class="orientacoes__item">
+            <span class="orientacoes__icone" aria-hidden="true">&#10003;</span>
+            Em situações de risco, busque um local seguro.
+          </li>
+          <li class="orientacoes__item">
+            <span class="orientacoes__icone" aria-hidden="true">&#10003;</span>
+            Você tem direito à proteção. A lei está do seu lado.
+          </li>
+        </ul>
+      </div>
+
+      <!-- Banner: Seus direitos -->
+      <aside class="direitos-banner" aria-label="Seus direitos">
+        <button class="direitos-banner__fechar" id="btn-fechar-direitos" aria-label="Fechar">&#215;</button>
+        <h3 class="direitos-banner__titulo">Seus direitos</h3>
+        <p class="direitos-banner__texto">
+          A Lei Maria da Penha (Lei 11.340/2006) garante proteção à mulher em situação de violência doméstica e familiar.
+        </p>
+        <a href="#" class="direitos-banner__link">Saiba mais sobre seus direitos</a>
+      </aside>
+
+    </div>
+  </section>
+  <!-- ========= FIM ORIENTAÇÕES DE SEGURANÇA ========= -->
+
+{% endblock %}
+
+
+{% block js %}
+  <script src="{% static 'js/triagem.js' %}"></script>
+{% endblock %}
