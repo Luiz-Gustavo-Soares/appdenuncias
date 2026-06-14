@@ -31,9 +31,6 @@ class DenunciaBaseInfoInline(StackedInline):
     show_change_link = True
 
 
-@admin.action(description="Marcar denuncia como revisada")
-def tornar_gerente(modeladmin, request, queryset):
-    queryset.update(cargo='Gerente')
 
 styling_button = "padding: 10px;  text-align: center; margin: 2px 5px 2px 5px; background-color: #b6b6b63b; border-radius:5px;"
 
