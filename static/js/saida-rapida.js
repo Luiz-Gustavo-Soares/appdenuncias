@@ -1,52 +1,86 @@
 /* ============================================================
    saida-rapida.js — Botão de saída rápida do DEAM
    Responsabilidades:
-     - Ao clicar, substituir a entrada atual do histórico
-       do navegador por um site neutro (sem deixar rastro)
-     - Redirecionar imediatamente para esse site neutro
-     - Preservar o progresso salvo no localStorage,
-       permitindo que a usuária retome depois
+     - Ao clicar, redirecionar imediatamente para site neutro
+     - Bloquear retorno via botão "Voltar" do navegador
+     - Permitir retorno via URL digitada, link interno ou externo
    ============================================================ */
 
 
 /* ------------------------------------------------------------
    1. CONFIGURAÇÃO
-   Site neutro para o qual a usuária será redirecionada.
-   Escolha um site comum e inofensivo que não levante suspeitas.
    ------------------------------------------------------------ */
 const SITE_NEUTRO = 'https://www.google.com';
+const CHAVE_SAIDA = 'deam_saida_rapida';
 
 
 /* ------------------------------------------------------------
-   2. FUNÇÃO PRINCIPAL
+   2. VERIFICAÇÃO DE NAVEGAÇÃO INTENCIONAL
+   Detecta se a usuária chegou à página de forma intencional
+   (URL digitada, link interno ou link externo) e limpa o
+   sinalizador de saída rápida se for o caso.
    ------------------------------------------------------------ */
+(function verificarNavegacaoIntencional() {
+  if (sessionStorage.getItem(CHAVE_SAIDA) !== '1') return;
 
-/**
- * Executa a saída rápida:
- *   1. Substitui todas as entradas do histórico acessíveis
- *      pela URL do site neutro (apaga o rastro do DEAM)
- *   2. Redireciona para o site neutro imediatamente
- *
- * O progresso salvo no localStorage é preservado
- * para que a usuária possa retomar quando estiver segura.
- */
+  const nav = performance.getEntriesByType('navigation')[0];
+
+  // 'navigate'      = URL digitada, link clicado (interno ou externo)
+  // 'back_forward'  = botão Voltar/Avançar do navegador
+  // 'reload'        = F5 / recarregar
+  // 'prerender'     = pré-renderização do navegador
+  const tipo = nav?.type ?? 'navigate';
+
+  if (tipo === 'navigate') {
+    // Chegou por link ou URL — navegação intencional, libera acesso
+    sessionStorage.removeItem(CHAVE_SAIDA);
+  }
+
+  // 'back_forward' e 'reload' mantém o sinalizador ativo,
+  // o bloqueio será aplicado pelos eventos abaixo
+})();
+
+
+/* ------------------------------------------------------------
+   3. FUNÇÃO PRINCIPAL
+   ------------------------------------------------------------ */
 function executarSaidaRapida() {
-  // location.replace redireciona sem adicionar entrada no histórico,
-  // então o botão "Voltar" do navegador não retorna ao DEAM.
+  sessionStorage.setItem(CHAVE_SAIDA, '1');
   window.location.replace(SITE_NEUTRO);
 }
 
 
 /* ------------------------------------------------------------
-   3. EVENTO
+   4. DETECÇÃO DE RETORNO VIA BOTÃO "VOLTAR"
+   ------------------------------------------------------------ */
+
+// Restauração via bfcache (cache de navegação do navegador)
+window.addEventListener('pageshow', function (e) {
+  if (e.persisted && sessionStorage.getItem(CHAVE_SAIDA) === '1') {
+    window.location.replace(SITE_NEUTRO);
+  }
+});
+
+// Aba volta ao foco
+document.addEventListener('visibilitychange', function () {
+  if (
+    document.visibilityState === 'visible' &&
+    sessionStorage.getItem(CHAVE_SAIDA) === '1'
+  ) {
+    window.location.replace(SITE_NEUTRO);
+  }
+});
+
+
+/* ------------------------------------------------------------
+   5. EVENTOS
    ------------------------------------------------------------ */
 const btnSaidaRapida = document.getElementById('btn-saida-rapida');
 
 if (btnSaidaRapida) {
   btnSaidaRapida.addEventListener('click', executarSaidaRapida);
 
-  // Atalho de teclado: tecla Escape também aciona a saída rápida.
-  // Útil se a usuária não conseguir clicar no botão a tempo.
+  // Atalho de teclado: Escape
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape') {
       executarSaidaRapida();
