@@ -3,14 +3,20 @@ from django.urls import path
 from django.utils.html import format_html
 from django.urls import reverse
 
-from denuncia.models import Denuncia, DenunciaBaseInfo
-from denuncia.services.denuncia_service import DenunciaService
+from denuncia.models import Denuncia, DenunciaBaseInfo, Evidencia
 from denuncia.views import marcar_como_validada
 
 from auditoria.views import  baixar_pdf
 from auditoria.models import AuditoriaAdministrativa
 
 
+
+class EvidenciaInline(admin.TabularInline):
+    model = Evidencia
+    extra = 0
+    readonly_fields = ('download',)
+
+    
 
 class AuditoriaAdmInline(admin.TabularInline):
     model = AuditoriaAdministrativa
@@ -37,7 +43,11 @@ class DenunciaAdmin(admin.ModelAdmin):
     
     readonly_fields = ("botao_pdf", "botao_revisado")
 
-    inlines = [DenunciaBaseInfoInline, AuditoriaAdmInline]
+    inlines = [DenunciaBaseInfoInline, EvidenciaInline, AuditoriaAdmInline,]
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
 
     def botao_pdf(self, obj):
 
@@ -70,9 +80,6 @@ class DenunciaAdmin(admin.ModelAdmin):
         )
 
 
-    def has_delete_permission(self, request, obj=None):
-        return False
-
     def get_urls(self):
 
         urls = super().get_urls()
@@ -95,4 +102,3 @@ class DenunciaAdmin(admin.ModelAdmin):
         ]
 
         return custom_urls + urls
-    

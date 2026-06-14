@@ -10,7 +10,8 @@ class GeradorPDFDenuncia:
         html = render_to_string(
             "pdf/denuncia.html",
             {
-                "denuncia": denuncia
+                "denuncia": denuncia,
+                "evidencias": denuncia.evidencias.all()
             }
         )
 

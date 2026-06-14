@@ -1,4 +1,6 @@
 from django.db import models
+from django.utils.html import format_html
+from django.urls import reverse
 
 import uuid
 
@@ -92,3 +94,51 @@ class DenunciaBaseInfo(models.Model):
 
     def __str__(self):
         return f'Informacoes basicas de {self.denuncia}'
+    
+
+def upload_evidencia(instance, filename):
+
+    return (
+        f"evidencias/"
+        f"denuncia_{instance.denuncia_id}/"
+        f"{str(uuid.uuid4())[:8]}-{filename}"
+    )
+
+class Evidencia(models.Model):
+
+    denuncia = models.ForeignKey(
+        "Denuncia",
+        on_delete=models.CASCADE,
+        related_name="evidencias"
+    )
+
+    arquivo = models.FileField(
+        upload_to=upload_evidencia
+    )
+
+    descricao = models.TextField(
+        blank=True
+    )
+
+    data_upload = models.DateTimeField(
+        auto_now_add=True
+    )
+
+
+    def get_url(self):
+        return reverse(
+                    "visualizar_evidencia",
+                    args=[self.id]
+                )
+
+
+    def download(self):
+
+        if self.arquivo:
+
+            return format_html(
+                '<a href="{}">Baixar</a>',
+                self.get_url
+            )
+
+        return "-"

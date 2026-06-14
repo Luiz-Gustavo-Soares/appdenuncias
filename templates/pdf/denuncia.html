@@ -265,10 +265,15 @@
         <div class="section-title">
             Evidências Anexadas
         </div>
-
+       {{ request.build_absolute_uri}}
         <ul class="evidence-list">
             {% for evidencia in evidencias %}
-                <li>{{ evidencia.nome_arquivo }}</li>
+                <li><a href="127.0.0.1:8000{{evidencia.get_url}}">{{evidencia.get_url}}</a></li>
+                {% if evidencia.descricao %}
+                    <ul>
+                        <li>{{evidencia.descricao}}</li>
+                    </ul>
+                {% endif %}
             {% empty %}
                 <li>Nenhuma evidência anexada.</li>
             {% endfor %}
