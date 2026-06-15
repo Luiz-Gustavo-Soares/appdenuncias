@@ -1,6 +1,4 @@
 from django.contrib import admin
-from questionario.models import Pergunta, Opcao
+from questionario.models import Questionario
 
-
-admin.site.register(Pergunta)
-admin.site.register(Opcao)
+admin.site.register(Questionario)
