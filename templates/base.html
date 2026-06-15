@@ -5,6 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{% block title %}DEAM — Denúncia Online de Violência à Mulher{% endblock %}</title>
 
+  <!-- Favicon -->
+  {% load static %}
+  <link rel="icon" type="image/svg+xml" href="{% static 'img/favicon.svg' %}" />
+
   <!-- Fonte -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -24,7 +28,7 @@
     <div class="navbar__inner">
 
       <!-- Logo / identidade -->
-      <a href="{% url 'index' %}" class="navbar__brand">
+      <a href="{% url 'index' %}?reset=1" class="navbar__brand">
         <span class="navbar__brand-icon" aria-hidden="true">
           <!-- Ícone escudo (inline SVG para não depender de arquivo externo) -->
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">

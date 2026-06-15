@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Fundo roxo -->
+  <rect width="32" height="32" rx="6" fill="#5C2D91"/>
+  <!-- Escudo -->
+  <path d="M16 4L6 8V15C6 20.5 10.4 25.6 16 27C21.6 25.6 26 20.5 26 15V8L16 4Z" fill="none" stroke="white" stroke-width="1.8" stroke-linejoin="round"/>
+  <!-- Check dentro do escudo -->
+  <path d="M12 16L14.5 18.5L20 13" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

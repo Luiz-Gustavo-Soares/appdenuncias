@@ -344,6 +344,17 @@ small {
   .navbar__link {
     display: none; /* "Início" some em mobile, logo já é clicável */
   }
+
+  /* Saída Rápida: fixo no canto superior direito em mobile */
+  .navbar__saida-rapida {
+    position: fixed;
+    top: var(--espaco-md);
+    right: var(--espaco-md);
+    z-index: 150;
+    border-radius: 99px;
+    padding: var(--espaco-sm) var(--espaco-md);
+    box-shadow: 0 4px 12px rgba(211, 47, 47, 0.4);
+  }
 }
 
 
