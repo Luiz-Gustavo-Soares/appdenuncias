@@ -105,9 +105,9 @@ class Evidencia(models.Model):
         upload_to=upload_evidencia
     )
 
-    descricao = models.TextField(
-        blank=True
-    )
+    # descricao = models.TextField(
+    #     blank=True
+    # )
 
     data_upload = models.DateTimeField(
         auto_now_add=True
@@ -116,7 +116,7 @@ class Evidencia(models.Model):
 
     def get_url(self):
         return reverse(
-                    "visualizar_evidencia",
+                    "denuncia:visualizar_evidencia",
                     args=[self.id]
                 )
 
@@ -127,7 +127,7 @@ class Evidencia(models.Model):
 
             return format_html(
                 '<a href="{}">Baixar</a>',
-                self.get_url
+                self.get_url()
             )
 
         return "-"

@@ -12,5 +12,5 @@ urlpatterns = [
     ),
 
     path('triagem/', triagem, name='triagem'),
-    path('registro/', registro, name='registro'),
+    path('registro/<str:codigo_denuncia>', registro, name='registro'),
 ]

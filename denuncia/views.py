@@ -8,9 +8,12 @@ from django.core.exceptions import PermissionDenied
 
 from denuncia.models import Denuncia, Evidencia, DenunciaBaseInfo
 from denuncia.services.denuncia_service import DenunciaService
+from denuncia.enums import StatusDenuncia
+
+from questionario.models import Questionario
+from questionario.forms import QuestionarioForm
+
 from core.models import Endereco
-
-
 
 @login_required
 def visualizar_evidencia(request, evidencia_id):
@@ -84,6 +87,7 @@ def triagem(request):
             estado=request.POST.get('end_estado'),
             complemento=request.POST.get('end_complemento'),
         )
+        
 
         denuncia = Denuncia.objects.create()
         denuncia_info = DenunciaBaseInfo.objects.create(
@@ -95,11 +99,44 @@ def triagem(request):
             endereco=endereco
         )
 
-        return redirect('denuncia:registro')
+        return redirect('denuncia:registro', denuncia.codigo_denuncia)
 
 
 
     return redirect('index')
 
-def registro(request):
-    return render(request, 'denuncia/registro.html')
+def registro(request, codigo_denuncia):
+    denuncia = get_object_or_404(
+        Denuncia,
+        codigo_denuncia=codigo_denuncia
+    )
+
+    if not denuncia.status == StatusDenuncia.RASCUNHO:
+        return redirect('index')
+
+
+
+    if request.method == "POST":
+        form = QuestionarioForm(request.POST)
+        if form.is_valid:
+            questionario = form.save(commit=False)
+            questionario.denuncia = denuncia
+            questionario.save()
+
+            for arquivo in request.FILES.getlist("anexos"):
+
+                Evidencia.objects.create(
+                    denuncia=denuncia,
+                    arquivo=arquivo
+                )
+            
+            denuncia.state.salvar()
+
+    form = QuestionarioForm()
+    
+    context = {
+        'denuncia': denuncia, 
+        'form': form
+        }
+    
+    return render(request, 'denuncia/registro.html', context)

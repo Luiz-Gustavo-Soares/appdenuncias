@@ -76,7 +76,7 @@
   <!-- ===================== FORM ===================== -->
   <form
     method="POST"
-    action="{% url 'denuncia:registro' %}"
+    action="{% url 'denuncia:registro' denuncia.codigo_denuncia %}"
     enctype="multipart/form-data"
     id="form-registro"
     novalidate
@@ -93,61 +93,37 @@
         <div class="registro__campos">
 
           <div class="campo">
-            <label class="campo__label" for="relacao_autora">Qual a relação com a pessoa autora? <span class="campo__obrigatorio" aria-hidden="true">*</span></label>
-            <select class="campo__select" id="relacao_autora" name="relacao_autora" required>
-              <option value="" disabled selected>Selecione...</option>
-              <option value="conjuge">Cônjuge / Companheiro(a)</option>
-              <option value="ex_conjuge">Ex-cônjuge / Ex-companheiro(a)</option>
-              <option value="namorado">Namorado(a)</option>
-              <option value="ex_namorado">Ex-namorado(a)</option>
-              <option value="familiar">Familiar</option>
-              <option value="conhecido">Conhecido(a)</option>
-              <option value="desconhecido">Desconhecido(a)</option>
-            </select>
+            <label class="campo__label" for={{ form.relacao_com_vitima.id_for_label }}>Qual a relação com a pessoa autora? <span class="campo__obrigatorio" aria-hidden="true">*</span></label>
+            {{ form.relacao_com_vitima }}
           </div>
 
           <div class="campo">
-            <label class="campo__label" for="local_fato">Onde ocorreu o fato? <span class="campo__obrigatorio" aria-hidden="true">*</span></label>
-            <select class="campo__select" id="local_fato" name="local_fato" required>
-              <option value="" disabled selected>Selecione...</option>
-              <option value="residencia_vitima">Residência da vítima</option>
-              <option value="residencia_autor">Residência do autor</option>
-              <option value="residencia_comum">Residência comum</option>
-              <option value="via_publica">Via pública</option>
-              <option value="local_trabalho">Local de trabalho</option>
-              <option value="outro">Outro</option>
-            </select>
+            <label class="campo__label" for={{ form.onde_ocorreu.id_for_label }}>Onde ocorreu o fato? <span class="campo__obrigatorio" aria-hidden="true">*</span></label>
+            {{ form.onde_ocorreu }}
           </div>
 
           <div class="campo">
             <label class="campo__label">Há risco iminente à integridade física?</label>
             <div class="campo__grupo-botoes" role="group" aria-label="Risco iminente">
-              <label class="campo__opcao">
-                <input type="radio" name="risco_iminente" value="sim" />
-                <span>Sim</span>
-              </label>
-              <label class="campo__opcao">
-                <input type="radio" name="risco_iminente" value="nao" />
-                <span>Não</span>
-              </label>
-              <label class="campo__opcao">
-                <input type="radio" name="risco_iminente" value="nao_sei" />
-                <span>Não sei informar</span>
-              </label>
+              {% for radio in form.ha_risco_integridade_fisica %}
+                  <label class="campo__opcao">
+                      {{ radio.tag }}
+                      <span>{{ radio.choice_label }}</span>
+                  </label>
+              {% endfor %}
+
             </div>
           </div>
 
           <div class="campo">
             <label class="campo__label">Há crianças ou adolescentes envolvidos?</label>
             <div class="campo__grupo-botoes" role="group" aria-label="Crianças ou adolescentes">
-              <label class="campo__opcao">
-                <input type="radio" name="criancas_envolvidas" value="sim" />
-                <span>Sim</span>
-              </label>
-              <label class="campo__opcao">
-                <input type="radio" name="criancas_envolvidas" value="nao" />
-                <span>Não</span>
-              </label>
+              {% for radio in form.ha_criancas_adolescentes_envolvidos %}
+                  <label class="campo__opcao">
+                      {{ radio.tag }}
+                      <span>{{ radio.choice_label }}</span>
+                  </label>
+              {% endfor %}
             </div>
           </div>
 
@@ -164,38 +140,38 @@
         <div class="registro__campos">
 
           <div class="campo campo--duplo">
-            <label class="campo__label" for="data_fato">Data do fato <span class="campo__obrigatorio" aria-hidden="true">*</span></label>
-            <input class="campo__input" type="date" id="data_fato" name="data_fato" required />
+            <label class="campo__label" for="{{ form.data_fato.id_for_label }}">Data do fato <span class="campo__obrigatorio" aria-hidden="true">*</span></label>
+            {{ form.data_fato }}
           </div>
 
           <div class="campo campo--duplo">
-            <label class="campo__label" for="hora_fato">Hora aproximada</label>
-            <input class="campo__input" type="time" id="hora_fato" name="hora_fato" />
+            <label class="campo__label" for="{{ form.hora_aproximada_fato.id_for_label }}">Hora aproximada</label>
+            {{ form.hora_aproximada_fato }}
           </div>
 
           <div class="campo">
-            <label class="campo__label" for="logradouro_fato">Logradouro do fato <span class="campo__obrigatorio" aria-hidden="true">*</span></label>
-            <input class="campo__input" type="text" id="logradouro_fato" name="logradouro_fato" placeholder="Rua, Avenida, Travessa..." required />
+            <label class="campo__label" for="{{ form.logradouro_fato.id_for_label }}">Logradouro do fato <span class="campo__obrigatorio" aria-hidden="true">*</span></label>
+            {{ form.logradouro_fato }}
           </div>
 
           <div class="campo campo--duplo">
-            <label class="campo__label" for="numero_fato">Número</label>
-            <input class="campo__input" type="text" id="numero_fato" name="numero_fato" placeholder="Nº" />
+            <label class="campo__label" for={{ form.numero_fato.id_for_label }}>Número</label>
+            {{ form.numero_fato }}
           </div>
 
           <div class="campo campo--duplo">
-            <label class="campo__label" for="bairro_fato">Bairro <span class="campo__obrigatorio" aria-hidden="true">*</span></label>
-            <input class="campo__input" type="text" id="bairro_fato" name="bairro_fato" required />
+            <label class="campo__label" for="{{ form.bairro_fato.id_for_label }}">Bairro <span class="campo__obrigatorio" aria-hidden="true">*</span></label>
+            {{ form.bairro_fato }}
           </div>
 
           <div class="campo campo--duplo">
-            <label class="campo__label" for="cidade_fato">Cidade <span class="campo__obrigatorio" aria-hidden="true">*</span></label>
-            <input class="campo__input" type="text" id="cidade_fato" name="cidade_fato" required />
+            <label class="campo__label" for="{{ form.cidade_fato.id_for_label }}">Cidade <span class="campo__obrigatorio" aria-hidden="true">*</span></label>
+            {{ form.cidade_fato }}
           </div>
 
           <div class="campo campo--duplo">
-            <label class="campo__label" for="estado_fato">Estado <span class="campo__obrigatorio" aria-hidden="true">*</span></label>
-            <input class="campo__input" type="text" id="estado_fato" name="estado_fato" maxlength="2" placeholder="UF" required />
+            <label class="campo__label" for="{{ form.estado_fato.id_for_label }}">Estado <span class="campo__obrigatorio" aria-hidden="true">*</span></label>
+            {{ form.estado_fato }}
           </div>
 
         </div>
@@ -211,33 +187,33 @@
         <div class="registro__campos">
 
           <div class="campo">
-            <label class="campo__label" for="vitima_nome">Nome completo <span class="campo__obrigatorio" aria-hidden="true">*</span></label>
-            <input class="campo__input" type="text" id="vitima_nome" name="vitima_nome" required />
+            <label class="campo__label" for="{{ form.nome_completo_vitima.id_for_label }}">Nome completo <span class="campo__obrigatorio" aria-hidden="true">*</span></label>
+            {{ form.nome_completo_vitima }}
           </div>
 
           <div class="campo campo--duplo">
-            <label class="campo__label" for="vitima_nascimento">Data de nascimento</label>
-            <input class="campo__input" type="date" id="vitima_nascimento" name="vitima_nascimento" />
+            <label class="campo__label" for="{{ form.data_nascimento_vitima.id_for_label }}">Data de nascimento</label>
+            {{ form.data_nascimento_vitima }}
           </div>
 
           <div class="campo campo--duplo">
-            <label class="campo__label" for="vitima_cpf">CPF</label>
-            <input class="campo__input" type="text" id="vitima_cpf" name="vitima_cpf" placeholder="000.000.000-00" maxlength="14" />
+            <label class="campo__label" for="{{ form.cpf_vitima.id_for_label }}">CPF</label>
+            {{ form.cpf_vitima }}
           </div>
 
           <div class="campo campo--duplo">
-            <label class="campo__label" for="vitima_telefone">Telefone de contato</label>
-            <input class="campo__input" type="tel" id="vitima_telefone" name="vitima_telefone" placeholder="(00) 00000-0000" />
+            <label class="campo__label" for="{{ form.telefone_vitima.id_for_label }}">Telefone de contato</label>
+            {{ form.telefone_vitima }}
           </div>
 
           <div class="campo campo--duplo">
-            <label class="campo__label" for="vitima_email">E-mail</label>
-            <input class="campo__input" type="email" id="vitima_email" name="vitima_email" />
+            <label class="campo__label" for="{{ form.email_vitima.id_for_label }}">E-mail</label>
+            {{ form.email_vitima }}
           </div>
 
           <div class="campo">
-            <label class="campo__label" for="vitima_endereco">Endereço residencial</label>
-            <input class="campo__input" type="text" id="vitima_endereco" name="vitima_endereco" placeholder="Logradouro, número, bairro, cidade - UF" />
+            <label class="campo__label" for="{{ form.endereco_residencial_vitima.id_for_label }}">Endereço residencial</label>
+            {{ form.endereco_residencial_vitima }}
           </div>
 
         </div>
@@ -253,28 +229,33 @@
         <div class="registro__campos">
 
           <div class="campo">
-            <label class="campo__label" for="autor_nome">Nome completo (se souber)</label>
-            <input class="campo__input" type="text" id="autor_nome" name="autor_nome" />
+            <label class="campo__label" for="{{ form.nome_completo_autor.id_for_label }}">Nome completo (se souber)</label>
+            {{ form.nome_completo_autor }}
           </div>
 
           <div class="campo campo--duplo">
-            <label class="campo__label" for="autor_nascimento">Data de nascimento aproximada</label>
-            <input class="campo__input" type="date" id="autor_nascimento" name="autor_nascimento" />
+            <label class="campo__label" for="{{ form.idade_aproximada_autor.id_for_label }}">Idade aproximada</label>
+            {{ form.idade_aproximada_autor }}
           </div>
 
           <div class="campo campo--duplo">
-            <label class="campo__label" for="autor_cpf">CPF (se souber)</label>
-            <input class="campo__input" type="text" id="autor_cpf" name="autor_cpf" placeholder="000.000.000-00" maxlength="14" />
+            <label class="campo__label" for="{{ form.cpf_autor.id_for_label }}">CPF (se souber)</label>
+            {{ form.cpf_autor }}
+
           </div>
 
           <div class="campo">
-            <label class="campo__label" for="autor_caracteristicas">Características físicas</label>
-            <textarea class="campo__textarea" id="autor_caracteristicas" name="autor_caracteristicas" rows="3" placeholder="Altura, cor de cabelo, porte, tatuagens, etc."></textarea>
+            <label class="campo__label" for="{{ form.caracteristicas_fisicas_autor.id_for_label }}
+">Características físicas</label>
+            {{ form.caracteristicas_fisicas_autor }}
+
           </div>
 
           <div class="campo">
-            <label class="campo__label" for="autor_endereco">Endereço conhecido do autor</label>
-            <input class="campo__input" type="text" id="autor_endereco" name="autor_endereco" placeholder="Logradouro, número, bairro, cidade - UF" />
+            <label class="campo__label" for="{{ form.endereco_conhecido_autor.id_for_label }}
+">Endereço conhecido do autor</label>
+            {{ form.endereco_conhecido_autor }}
+
           </div>
 
         </div>
@@ -290,30 +271,23 @@
         <div class="registro__campos">
 
           <div class="campo campo--duplo">
-            <label class="campo__label" for="veiculo_tipo">Tipo de veículo</label>
-            <select class="campo__select" id="veiculo_tipo" name="veiculo_tipo">
-              <option value="" disabled selected>Selecione...</option>
-              <option value="carro">Carro</option>
-              <option value="moto">Moto</option>
-              <option value="caminhao">Caminhão</option>
-              <option value="onibus">Ônibus</option>
-              <option value="outro">Outro</option>
-            </select>
+            <label class="campo__label" for="{{ form.tipo_veiculo_autor.id_for_label }}">Tipo de veículo</label>
+            {{ form.tipo_veiculo_autor }}
           </div>
 
           <div class="campo campo--duplo">
-            <label class="campo__label" for="veiculo_placa">Placa</label>
-            <input class="campo__input" type="text" id="veiculo_placa" name="veiculo_placa" placeholder="AAA-0000" maxlength="8" />
+            <label class="campo__label" for="{{ form.placa_veiculo_autor.id_for_label }}">Placa</label>
+            {{ form.placa_veiculo_autor }}
           </div>
 
           <div class="campo campo--duplo">
-            <label class="campo__label" for="veiculo_cor">Cor</label>
-            <input class="campo__input" type="text" id="veiculo_cor" name="veiculo_cor" />
+            <label class="campo__label" for="{{ form.cor_veiculo_autor.id_for_label }}">Cor</label>
+            {{ form.cor_veiculo_autor }}
           </div>
 
           <div class="campo campo--duplo">
-            <label class="campo__label" for="veiculo_modelo">Modelo / Marca</label>
-            <input class="campo__input" type="text" id="veiculo_modelo" name="veiculo_modelo" />
+            <label class="campo__label" for="{{ form.modelo_marca_veiculo_autor.id_for_label }}">Modelo / Marca</label>
+            {{ form.modelo_marca_veiculo_autor }}
           </div>
 
         </div>
@@ -329,20 +303,13 @@
         <div class="registro__campos">
 
           <div class="campo">
-            <label class="campo__label" for="objetos_arma">Arma ou instrumento utilizado</label>
-            <select class="campo__select" id="objetos_arma" name="objetos_arma">
-              <option value="" disabled selected>Selecione...</option>
-              <option value="nenhum">Nenhum</option>
-              <option value="arma_fogo">Arma de fogo</option>
-              <option value="arma_branca">Arma branca</option>
-              <option value="objeto_contundente">Objeto contundente</option>
-              <option value="outro">Outro</option>
-            </select>
+            <label class="campo__label" for="{{ form.arma_ou_instrumento_utilizado.id_for_label }}">Arma ou instrumento utilizado</label>
+            {{ form.arma_ou_instrumento_utilizado }}
           </div>
 
           <div class="campo">
-            <label class="campo__label" for="objetos_subtraidos">Objetos subtraídos (roubados ou furtados)</label>
-            <textarea class="campo__textarea" id="objetos_subtraidos" name="objetos_subtraidos" rows="3" placeholder="Descreva os objetos, se houver..."></textarea>
+            <label class="campo__label" for="{{ form.objetos_subtraidos.id_for_label }}">Objetos subtraídos (roubados ou furtados)</label>
+            {{ form.objetos_subtraidos }}
           </div>
 
         </div>
@@ -358,20 +325,13 @@
         <div class="registro__campos">
 
           <div class="campo">
-            <label class="campo__label" for="descricao_fato">Descrição <span class="campo__obrigatorio" aria-hidden="true">*</span></label>
-            <textarea
-              class="campo__textarea campo__textarea--grande"
-              id="descricao_fato"
-              name="descricao_fato"
-              rows="10"
-              placeholder="Descreva o que ocorreu, quando, como e qualquer detalhe relevante..."
-              required
-            ></textarea>
+            <label class="campo__label" for="{{ form.descricao_ocorrencia.id_for_label }}">Descrição <span class="campo__obrigatorio" aria-hidden="true">*</span></label>
+            {{ form.descricao_ocorrencia }}
           </div>
 
           <div class="campo">
-            <label class="campo__label" for="testemunhas">Há testemunhas? Se sim, informe o nome e contato.</label>
-            <textarea class="campo__textarea" id="testemunhas" name="testemunhas" rows="3" placeholder="Nome e telefone das testemunhas, se houver..."></textarea>
+            <label class="campo__label" for="{{ form.informacoes_testemunhas.id_for_label }}">Há testemunhas? Se sim, informe o nome e contato.</label>
+            {{ form.informacoes_testemunhas }}
           </div>
 
         </div>
@@ -389,54 +349,36 @@
           <div class="campo">
             <label class="campo__label">A violência é recorrente?</label>
             <div class="campo__grupo-botoes" role="group">
-              <label class="campo__opcao">
-                <input type="radio" name="violencia_recorrente" value="sim" />
-                <span>Sim</span>
-              </label>
-              <label class="campo__opcao">
-                <input type="radio" name="violencia_recorrente" value="nao" />
-                <span>Não</span>
-              </label>
-              <label class="campo__opcao">
-                <input type="radio" name="violencia_recorrente" value="nao_sei" />
-                <span>Não sei</span>
-              </label>
+              {% for radio in form.violencia_recorrente %}
+                <label class="campo__opcao">
+                    {{ radio.tag }}
+                    <span>{{ radio.choice_label }}</span>
+                </label>
+              {% endfor %}
             </div>
           </div>
 
           <div class="campo">
             <label class="campo__label">Existe medida protetiva em vigor?</label>
             <div class="campo__grupo-botoes" role="group">
-              <label class="campo__opcao">
-                <input type="radio" name="medida_protetiva" value="sim" />
-                <span>Sim</span>
-              </label>
-              <label class="campo__opcao">
-                <input type="radio" name="medida_protetiva" value="nao" />
-                <span>Não</span>
-              </label>
-              <label class="campo__opcao">
-                <input type="radio" name="medida_protetiva" value="nao_sei" />
-                <span>Não sei</span>
-              </label>
+              {% for radio in form.medida_protetiva_em_vigor %}
+                <label class="campo__opcao">
+                    {{ radio.tag }}
+                    <span>{{ radio.choice_label }}</span>
+                </label>
+              {% endfor %}
             </div>
           </div>
 
           <div class="campo">
             <label class="campo__label">A vítima deseja representar criminalmente?</label>
             <div class="campo__grupo-botoes" role="group">
-              <label class="campo__opcao">
-                <input type="radio" name="representacao_criminal" value="sim" />
-                <span>Sim</span>
-              </label>
-              <label class="campo__opcao">
-                <input type="radio" name="representacao_criminal" value="nao" />
-                <span>Não</span>
-              </label>
-              <label class="campo__opcao">
-                <input type="radio" name="representacao_criminal" value="nao_sei" />
-                <span>Não sei ainda</span>
-              </label>
+              {% for radio in form.vitima_deseja_representar_criminalmente %}
+                <label class="campo__opcao">
+                    {{ radio.tag }}
+                    <span>{{ radio.choice_label }}</span>
+                </label>
+              {% endfor %}
             </div>
           </div>
 

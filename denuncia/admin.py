@@ -10,6 +10,8 @@ from denuncia.views import marcar_como_validada
 from auditoria.views import  baixar_pdf
 from auditoria.models import AuditoriaAdministrativa
 
+from questionario.models import Questionario
+
 
 
 class EvidenciaInline(TabularInline):
@@ -30,6 +32,11 @@ class DenunciaBaseInfoInline(StackedInline):
     can_delete = False
     show_change_link = True
 
+class QuestionarioInline(StackedInline):
+    model = Questionario
+    extra = 0
+    can_delete = False
+    show_change_link = True
 
 
 styling_button = "padding: 10px;  text-align: center; margin: 2px 5px 2px 5px; background-color: #b6b6b63b; border-radius:5px;"
@@ -45,7 +52,8 @@ class DenunciaAdmin(ModelAdmin):
     inlines = [
         AuditoriaAdmInline,
         DenunciaBaseInfoInline, 
-        EvidenciaInline, 
+        QuestionarioInline,
+        EvidenciaInline,
         ]
 
 
