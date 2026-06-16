@@ -30,7 +30,7 @@ class DenunciaService:
     @classmethod
     @transaction.atomic
     def finalizar(cls, denuncia: Denuncia, user):
-        CARGO = 'Gerente'
+        CARGO = 'Gerente Auditoria'
         if not user.groups.filter(name=CARGO).exists():
             raise RuntimeError(f'Usuario nao é um {CARGO}')
         denuncia.state.finalizar()

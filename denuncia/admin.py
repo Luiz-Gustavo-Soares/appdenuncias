@@ -45,8 +45,10 @@ styling_button = "padding: 10px; display:block; text-align: center; margin: 2px 
 class DenunciaAdmin(ModelAdmin):
     list_display = ('codigo_denuncia', 'data_criacao', 'auditoria__nivel_risco_corrigido', 'status')
     
-    list_filter = ('data_criacao', 'auditoria__nivel_risco_corrigido')
+    list_filter = ('data_criacao', 'auditoria__nivel_risco_corrigido', 'status')
     
+    ordering = ('-data_criacao',)
+
     readonly_fields = ("botao_pdf", "revisao")
     search_fields = ['codigo_denuncia']
     inlines = [

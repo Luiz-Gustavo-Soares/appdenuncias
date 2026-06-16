@@ -4,12 +4,10 @@ from django.urls import reverse
 
 import uuid
 
-from denuncia.enums import StatusDenuncia, NivelDeRisco, SituacaoAnterior
+from denuncia.enums import StatusDenuncia
 from denuncia import states as st
 
 from core.models import Endereco
-
-
 
 
 class Denuncia(models.Model):
@@ -21,13 +19,6 @@ class Denuncia(models.Model):
         max_length=2,
         default=StatusDenuncia.RASCUNHO
 
-    )
-
-    risco_automatico = models.CharField(
-        choices=NivelDeRisco,
-        max_length=2,
-        null=True,
-        blank=True
     )
 
     @property
@@ -104,10 +95,6 @@ class Evidencia(models.Model):
     arquivo = models.FileField(
         upload_to=upload_evidencia
     )
-
-    # descricao = models.TextField(
-    #     blank=True
-    # )
 
     data_upload = models.DateTimeField(
         auto_now_add=True

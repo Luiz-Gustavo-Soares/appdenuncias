@@ -32,7 +32,7 @@ def visualizar_evidencia(request, evidencia_id):
     )
 
 
-
+@login_required
 def marcar_como_validada(request, denuncia_id):
 
     denuncia = get_object_or_404(
@@ -61,6 +61,7 @@ def marcar_como_validada(request, denuncia_id):
     )
 
 
+@login_required
 def encaminhar(request, denuncia_id):
     denuncia = get_object_or_404(
         Denuncia,
@@ -89,6 +90,7 @@ def encaminhar(request, denuncia_id):
     )
 
 
+@login_required
 def finalizar(request, denuncia_id):
     denuncia = get_object_or_404(
         Denuncia,

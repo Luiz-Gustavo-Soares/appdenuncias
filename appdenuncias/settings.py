@@ -64,6 +64,10 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+UNFOLD = {
+    "SITE_HEADER": ("Denuncias Admin"),
+}
+
 ROOT_URLCONF = 'appdenuncias.urls'
 
 TEMPLATES = [
