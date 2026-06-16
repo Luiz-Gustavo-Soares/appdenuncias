@@ -1,12 +1,13 @@
 from django.shortcuts import render, redirect
+from django.views.decorators.cache import never_cache
 
+@never_cache
 def triagem(request):
     if request.method == 'POST':
-        # Salva os dados da triagem na sessão
         request.session['triagem'] = request.POST.dict()
-        return redirect('denuncia:registro')  # ← redireciona para o registro
-    # GET direto nessa URL volta para a landing
+        return redirect('denuncia:registro')
     return redirect('index')
 
+@never_cache
 def registro(request):
     return render(request, 'denuncia/registro.html')

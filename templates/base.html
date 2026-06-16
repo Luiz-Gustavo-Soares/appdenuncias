@@ -5,6 +5,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{% block title %}DEAM — Denúncia Online de Violência à Mulher{% endblock %}</title>
 
+  <!-- Saída Rápida: verificação antes de qualquer renderização -->
+  <style id="deam-pre-render">html { visibility: hidden; }</style>
+  <script>
+    (function() {
+      var saidaAtiva = sessionStorage.getItem('deam_saida_rapida') === '1';
+      var nav = performance.getEntriesByType('navigation')[0];
+      var tipo = nav ? nav.type : 'navigate';
+
+      if (saidaAtiva && tipo !== 'navigate') {
+        // Retorno indevido: redireciona mantendo html oculto
+        location.replace('https://www.google.com');
+      } else {
+        // Acesso legítimo: remove ocultação e limpa sinalizador
+        if (saidaAtiva) sessionStorage.removeItem('deam_saida_rapida');
+        document.getElementById('deam-pre-render').remove();
+      }
+    })();
+  </script>
+
   <!-- Favicon -->
   {% load static %}
   <link rel="icon" type="image/svg+xml" href="{% static 'img/favicon.svg' %}" />
