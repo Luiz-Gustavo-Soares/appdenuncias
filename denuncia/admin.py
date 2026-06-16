@@ -1,11 +1,11 @@
 from django.contrib import admin
 from unfold.admin import ModelAdmin, TabularInline, StackedInline
-from django.urls import path
+from django.urls import path, reverse
 from django.utils.html import format_html
-from django.urls import reverse
 
 from denuncia.models import Denuncia, DenunciaBaseInfo, Evidencia
-from denuncia.views import marcar_como_validada
+from denuncia.views import marcar_como_validada, encaminhar, finalizar
+from denuncia.enums import StatusDenuncia
 
 from auditoria.views import  baixar_pdf
 from auditoria.models import AuditoriaAdministrativa
@@ -39,16 +39,16 @@ class QuestionarioInline(StackedInline):
     show_change_link = True
 
 
-styling_button = "padding: 10px;  text-align: center; margin: 2px 5px 2px 5px; background-color: #b6b6b63b; border-radius:5px;"
+styling_button = "padding: 10px; display:block; text-align: center; margin: 2px 5px 2px 5px; background-color: #b6b6b63b; border-radius:5px;"
 
 @admin.register(Denuncia)
 class DenunciaAdmin(ModelAdmin):
-    list_display = ('data_criacao', 'risco_automatico', 'auditoria__nivel_risco_corrigido', 'status')
+    list_display = ('codigo_denuncia', 'data_criacao', 'auditoria__nivel_risco_corrigido', 'status')
     
-    list_filter = ('data_criacao', 'risco_automatico', 'auditoria__nivel_risco_corrigido')
+    list_filter = ('data_criacao', 'auditoria__nivel_risco_corrigido')
     
     readonly_fields = ("botao_pdf", "revisao")
-
+    search_fields = ['codigo_denuncia']
     inlines = [
         AuditoriaAdmInline,
         DenunciaBaseInfoInline, 
@@ -73,7 +73,7 @@ class DenunciaAdmin(ModelAdmin):
         )
 
         return format_html(
-            '<a style="{} display: block;" class="button" href="{}">Gerar PDF</a>',
+            '<a style="{}" class="button" href="{}">Gerar PDF</a>',
             styling_button, url
         )
 
@@ -87,20 +87,25 @@ class DenunciaAdmin(ModelAdmin):
             args=[obj.pk]
         )
 
-        
-
-        return format_html(
-            '''
-            <div style="display: flex; align-items: center; justify-content: center;">
-                <a style="{}" class="button" href="{}">Marcar como Validada</a>
-                <a style="{}" class="button" href="#">Encaminhar</a>
-                <a style="{}" class="button" href="#">Finalizar</a>
-            </div>
-            ''',
-            styling_button, url_validar,
-            styling_button,
-            styling_button,
+        url_encaminhar = reverse(
+            "admin:encaminhar",
+            args=[obj.pk]
         )
+
+        url_finalizar = reverse(
+            "admin:finalizar",
+            args=[obj.pk]
+        )
+
+
+        buttons_map = {
+            StatusDenuncia.RASCUNHO: '',
+            StatusDenuncia.SALVO: format_html('<a style="{}" class="button" href="{}">Marcar como Validada</a>', styling_button, url_validar),
+            StatusDenuncia.VALIDADA: format_html('<a style="{}" class="button" href="{}">Encaminhar</a>', styling_button, url_encaminhar),
+            StatusDenuncia.ENCAMINHADA: format_html('<a style="{}" class="button" href="{}">Finalizar</a>', styling_button, url_finalizar),
+            StatusDenuncia.FINALIZADA: '',
+        }
+        return buttons_map[obj.status]
 
 
     def get_urls(self):
@@ -121,6 +126,20 @@ class DenunciaAdmin(ModelAdmin):
                     marcar_como_validada
                 ),
                 name="validar",
+            ),
+            path(
+                "<int:denuncia_id>/encaminhar/",
+                self.admin_site.admin_view(
+                    encaminhar
+                ),
+                name="encaminhar",
+            ),
+            path(
+                "<int:denuncia_id>/finalizar/",
+                self.admin_site.admin_view(
+                    finalizar
+                ),
+                name="finalizar",
             ),
         ]
 

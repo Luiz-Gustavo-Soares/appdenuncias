@@ -61,6 +61,62 @@ def marcar_como_validada(request, denuncia_id):
     )
 
 
+def encaminhar(request, denuncia_id):
+    denuncia = get_object_or_404(
+        Denuncia,
+        pk=denuncia_id
+    )
+
+    try:
+        DenunciaService.encaminhar(denuncia)
+
+        messages.success(
+            request,
+            "Denúncia Enviada.",
+        )
+
+    except RuntimeError as e:
+        messages.error(
+            request,
+            f"Impossivel enviar. {str(e)}",
+        )
+
+    return redirect(
+        reverse(
+            "admin:denuncia_denuncia_change",
+            args=[denuncia.pk]
+        )
+    )
+
+
+def finalizar(request, denuncia_id):
+    denuncia = get_object_or_404(
+        Denuncia,
+        pk=denuncia_id
+    )
+
+    try:
+        DenunciaService.finalizar(denuncia, request.user)
+
+        messages.success(
+            request,
+            "Denúncia Finalizada.",
+        )
+        
+    except RuntimeError as e:
+        messages.error(
+            request,
+            f"Impossivel finalizar. {str(e)}",
+        )
+
+    return redirect(
+        reverse(
+            "admin:denuncia_denuncia_change",
+            args=[denuncia.pk]
+        )
+    )
+
+
 def triagem(request):
     if request.method == 'POST':
         request.session['triagem'] = request.POST.dict()

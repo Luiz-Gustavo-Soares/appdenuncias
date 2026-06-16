@@ -13,5 +13,4 @@ urlpatterns = [
 
     path('denuncia/', include('denuncia.urls')),
 
-    path('questionario/', include('questionario.urls')),
 ]

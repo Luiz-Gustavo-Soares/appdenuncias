@@ -192,5 +192,8 @@ class Questionario(models.Model):
         blank=True, null=True
     )
 
+    def get_endereco_ororrido_str(self):
+        return f'{self.logradouro_fato}, n {self.numero_fato}, {self.bairro_fato}, {self.cidade_fato} - {self.estado_fato}'
+
     def __str__(self):
         return f"Questionário {self.id}"

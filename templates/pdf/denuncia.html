@@ -9,7 +9,9 @@
             size: A4;
             margin: 2cm;
         }
-
+        * {
+            font-family: "Times New Roman", Times, serif;
+        }
         body {
             font-family: Arial, sans-serif;
             font-size: 12px;
@@ -38,6 +40,13 @@
             font-weight: bold;
             border-left: 4px solid #555;
             margin-bottom: 10px;
+        }
+
+        h3 {
+            background: #f0f0f0;
+            padding: 8px;
+            font-weight: bold;
+            margin-bottom: 8px;
         }
 
         .info-table {
@@ -161,15 +170,6 @@
 
         <table class="info-table">
             <tr>
-                <td class="label">Nome</td>
-                <td>{{ denuncia.base_info.nome }}</td>
-            </tr>
-            <tr>
-                <td class="label">Cpf</td>
-                <td>{{ denuncia.base_info.cpf }}</td>
-            </tr>
-
-            <tr>
                 <td class="label">Registrou uma ocorrencia anteriormente</td>
                 <td>{{ denuncia.base_info.registrou_anteriormente }}</td>
             </tr>
@@ -177,7 +177,7 @@
             {% if denuncia.base_info.registrou_anteriormente %}
             <tr>
                 <td class="label">Situacao da denuncia anterior</td>
-                <td>{{ denuncia.base_info.get_situacao_anterior_display }}</td>
+                <td>{{ denuncia.base_info.situacao_anterior }}</td>
             </tr>
             {% endif %}
 
@@ -186,51 +186,11 @@
                 <td>{{ denuncia.base_info.denunciante_envolvida }}</td>
             </tr>
 
-            {% if denuncia.base_info.denunciante_envolvida %}
             <tr>
-                <td class="label">Endereço Denunciante</td>
-                <td>{{ denuncia.base_info.endereco_denunciante }}</td>
-            </tr>
-            {% else %}
-            <tr>
-                <td class="label">Endereço Vitima</td>
-                <td>{{ denuncia.base_info.endereco_vitima }}</td>
-            </tr>
-            {% endif %}
-        </table>
-    </div>
-
-    <div class="section">
-        <div class="section-title">
-            Classificação da Denúncia
-        </div>
-
-        <table class="info-table">
-            <tr>
-                <td class="label">Classificação Automática</td>
-                <td>{{ denuncia.get_risco_automatico_display }}</td>
-            </tr>
-
-            <tr>
-                <td class="label">Classificação Final</td>
-                <td>{{ denuncia.auditoria.get_nivel_risco_corrigido_display }}</td>
-            </tr>
-
-            <tr>
-                <td class="label">Pontuação de Risco</td>
-                <td>{{ denuncia.pontuacao_risco }}</td>
+                <td class="label">endereco</td>
+                <td>{{ denuncia.base_info.endereco }}</td>
             </tr>
         </table>
-    </div>
-
-    <div class="section">
-        <div class="section-title">
-            Relato da Denunciante
-        </div>
-
-        <div class="text-block">
-            {{ denuncia.relato }}
-        </div>
     </div>
 
     <div class="section">
@@ -238,17 +198,64 @@
             Respostas do Questionário
         </div>
 
-        {% for resposta in respostas %}
-            <div class="question">
-                <div class="question-title">
-                    {{ resposta.pergunta.texto }}
-                </div>
+        {% comment %}1 - Questionário inicial {% endcomment %}
+        <h3>Perguntas iniciais</h3>
+        <p><strong>Relação com a vítima:</strong> {{ denuncia.questionario.get_relacao_com_vitima_display }}</p>
+        <p><strong>Onde ocorreu:</strong> {{ denuncia.questionario.get_onde_ocorreu_display }}</p>
+        <p><strong>Há risco à integridade física:</strong> {{ denuncia.questionario.get_ha_risco_integridade_fisica_display }}</p>
+        <p><strong>Há crianças ou adolescentes envolvidos:</strong> {{ denuncia.questionario.get_ha_criancas_adolescentes_envolvidos_display }}</p>
 
-                <div class="answer">
-                    {{ resposta.valor_exibicao }}
-                </div>
-            </div>
-        {% endfor %}
+
+        {% comment %}2 - Dados basicos  {% endcomment %}
+        <h3>Dados Basicos</h3>
+        <p><strong>Data do ocorrido: </strong> {{ denuncia.questionario.data_fato }}</p>
+        <p><strong>Hora aproximada: </strong> {{ denuncia.questionario.hora_aproximada_fato }}</p>
+
+        <p><strong>Endereço do ocorrigo: </strong> {{ denuncia.questionario.get_endereco_ororrido_str }}, </p>
+        
+
+        {% comment %}3 - Dados Vitima  {% endcomment %}
+        <h3>Dados Vitima</h3>
+        <p><strong>Nome completo: </strong> {{ denuncia.questionario.nome_completo_vitima }}</p>
+        <p><strong>Data de nascimento: </strong> {{ denuncia.questionario.data_nascimento_vitima }}</p>
+        <p><strong>CPF: </strong> {{ denuncia.questionario.cpf_vitima }}</p>
+        <p><strong>E-mail: </strong> {{ denuncia.questionario.email_vitima }}</p>
+        <p><strong>Endereço residencial: </strong> {{ denuncia.questionario.endereco_residencial_vitima }}</p>
+
+        {% comment %}4 - Dados do Autor {% endcomment %}
+        <h3>Dados Autor</h3>
+        <p><strong>Nome completo: </strong> {{ denuncia.questionario.nome_completo_autor }}</p>
+        <p><strong>Idade aproximada: </strong> {{ denuncia.questionario.idade_aproximada_autor }}</p>
+        <p><strong>CPF: </strong> {{ denuncia.questionario.cpf_autor }}</p>
+        <p><strong>Características físicas: </strong> {{ denuncia.questionario.caracteristicas_fisicas_autor }}</p>
+        <p><strong>Endereço conhecido do autor: </strong> {{ denuncia.questionario.endereco_conhecido_autor }}</p>
+
+        {% comment %}5 - Veiculos envolvidos {% endcomment %}
+        <h3>Veiculo Envolvido</h3>
+        <p><strong>Tipo de veículo: </strong> {{ denuncia.questionario.get_tipo_veiculo_autor_display }}</p>
+        <p><strong>Placa: </strong> {{ denuncia.questionario.placa_veiculo_autor }}</p>
+        <p><strong>Cor: </strong> {{ denuncia.questionario.cor_veiculo_autor }}</p>
+        <p><strong>Modelo / Marca: </strong> {{ denuncia.questionario.modelo_marca_veiculo_autor }}</p>
+        
+        {% comment %}6 - Objetos envolvidos {% endcomment %}
+        <h3>Objetos envolvidos</h3>
+        <p><strong>Arma ou instrumento utilizado: </strong> {{ denuncia.questionario.get_arma_ou_instrumento_utilizado_display }}</p>
+        <p><strong>Objetos subtraídos: </strong> {{ denuncia.questionario.objetos_subtraidos }}</p>
+
+        
+        {% comment %}7 - Descricao do fato {% endcomment %}
+        <h3>Descricao fato</h3>
+        <p><strong>Descrição: </strong> {{ denuncia.questionario.descricao_ocorrencia }}</p>
+        <p><strong>Há testemunhas? Se sim, informe o nome e contato: </strong> {{ denuncia.questionario.informacoes_testemunhas }}</p>
+
+        {% comment %}8 - Questoes complementares {% endcomment %}
+        <h3>Questoes complementares</h3>
+        <p><strong>Violência recorrente:</strong> {{ denuncia.questionario.get_violencia_recorrente_display }}</p>
+        <p><strong>Medida protetiva em vigor:</strong> {{ denuncia.questionario.get_medida_protetiva_em_vigor_display }}</p>
+        <p><strong>Deseja representar criminalmente:</strong> {{ denuncia.questionario.get_vitima_deseja_representar_criminalmente_display }}</p>
+
+
+        
     </div>
 
     <div class="section">
