@@ -25,6 +25,7 @@ class AuditoriaAdmInline(TabularInline):
     model = AuditoriaAdministrativa
     extra = 0
     can_delete = False
+    show_change_link = True
 
 class DenunciaBaseInfoInline(StackedInline):
     model = DenunciaBaseInfo
@@ -49,7 +50,7 @@ class DenunciaAdmin(ModelAdmin):
     
     ordering = ('-data_criacao',)
 
-    readonly_fields = ("botao_pdf", "revisao")
+    readonly_fields = ("botao_pdf", "revisao", "status")
     search_fields = ['codigo_denuncia']
     inlines = [
         AuditoriaAdmInline,

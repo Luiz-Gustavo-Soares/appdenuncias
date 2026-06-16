@@ -173,7 +173,8 @@ def registro(request, codigo_denuncia):
     )
 
     if not denuncia.status == StatusDenuncia.RASCUNHO:
-        return redirect('index')
+        url_sucesso = f"{reverse('index')}?sucesso=1"
+        return redirect(url_sucesso)
 
 
 
@@ -191,8 +192,10 @@ def registro(request, codigo_denuncia):
                     arquivo=arquivo
                 )
             
+            url_sucesso = f"{reverse('index')}?sucesso=1"
+
             denuncia.state.salvar()
-            return redirect('index')
+            return redirect(url_sucesso)
 
     form = QuestionarioForm()
     

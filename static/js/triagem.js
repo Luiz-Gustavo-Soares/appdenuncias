@@ -389,62 +389,70 @@ btnAvancar4b?.addEventListener('click', function () {
 window.addEventListener('pageshow', function (event) {
   const params = new URLSearchParams(window.location.search);
   
-  // 1. Reset manual: Se houver ordem explícita na URL
-  if (params.get('reset') === '1') {
+  // 1. Veio pelo botão Início (?reset=1) OU enviou a denúncia com sucesso (?sucesso=1)
+  if (params.get('reset') === '1' || params.get('sucesso') === '1') {
+    
+    // MATA O FANTASMA: Apaga o rascunho de vez!
     localStorage.removeItem('deam_registro_progresso');
     localStorage.removeItem(CHAVE_STORAGE); // triagem
-    window.history.replaceState({}, '', window.location.pathname);
-  } else {
-    // 2. Acesso limpo: verifica se existe uma denúncia salva no registro
-    const rawProgresso = localStorage.getItem('deam_registro_progresso');
     
-    if (rawProgresso) {
-      try {
-        const dados = JSON.parse(rawProgresso);
-        
-        // Verifica se realmente há dados preenchidos
-        const temCampos = dados.campos && Object.values(dados.campos).some(v => String(v).trim() !== '');
-        
-        // CORREÇÃO: Removemos a dependência estrita do "dados.cod_denuncia" existir
-        if (temCampos) {
-          // Pequeno timeout garante a renderização visual do HTML antes de travar a tela
-          setTimeout(() => {
-            const desejaContinuar = window.confirm(
-              'Identificamos uma denúncia em andamento. Deseja continuar de onde parou?'
-            );
+    // Se for sucesso oficial, dá o feedback visual!
+    if (params.get('sucesso') === '1') {
+      // Usando um leve setTimeout para garantir que a tela de fundo carregou
+      setTimeout(() => {
+        alert('Sua denúncia foi enviada e registrada com sucesso! Nossas autoridades tomarão as devidas providências.');
+      }, 50);
+    }
 
-            if (desejaContinuar) {
-              // Se tiver um código, usa a URL específica. Se não tiver, vai para a URL base.
-              const urlDestino = dados.cod_denuncia 
-                ? `/denuncia/registro/${dados.cod_denuncia}/` 
-                : '/denuncia/registro/';
-                
-              window.location.href = urlDestino;
-            } else {
-              // Usuária recusou: apaga a denúncia da memória e inicia triagem do zero
-              localStorage.removeItem('deam_registro_progresso');
-              iniciarTriagemLimpa();
-            }
-          }, 100);
-          
-          return; // Para a execução do script aqui para não sobrepor telas
-        }
-      } catch (e) {
-        localStorage.removeItem('deam_registro_progresso');
+    // Limpa a URL (tira o ?sucesso=1 ou ?reset=1 para a URL ficar limpa)
+    window.history.replaceState({}, '', window.location.pathname);
+    
+    iniciarTriagemLimpa();
+    return;
+  } 
+  
+  // 2. Acesso normal (verifica se há denúncia pendente)
+  const rawProgresso = localStorage.getItem('deam_registro_progresso');
+  
+  if (rawProgresso) {
+    try {
+      const dados = JSON.parse(rawProgresso);
+      const temCampos = dados.campos && Object.values(dados.campos).some(v => String(v).trim() !== '');
+      
+      if (temCampos) {
+        setTimeout(() => {
+          const desejaContinuar = window.confirm(
+            'Identificamos uma denúncia em andamento. Deseja continuar de onde parou?'
+          );
+
+          if (desejaContinuar) {
+            const urlDestino = dados.cod_denuncia 
+              ? `/denuncia/registro/${dados.cod_denuncia}/` 
+              : '/denuncia/registro/';
+            window.location.href = urlDestino;
+          } else {
+            // Usuária recusou voltar para a denúncia
+            localStorage.removeItem('deam_registro_progresso');
+            iniciarTriagemLimpa();
+          }
+        }, 100);
+        return; 
       }
+    } catch (e) {
+      localStorage.removeItem('deam_registro_progresso');
     }
   }
 
-  // 3. Fluxo normal: se não achou denúncia no formulário, inicia a triagem
+  // 3. Se não achou nada, inicia limpo
   iniciarTriagemLimpa();
 });
 
 /**
- * Função auxiliar para montar a tela de triagem original
+ * Função auxiliar para montar a tela de triagem padrão
  */
 function iniciarTriagemLimpa() {
   mostrarPasso('1');
   atualizarCabecalho('1');
   atualizarBotaoVoltar();
-  restaurarProgressoSeExistir(); // Esta função no triagem.js restaura APENAS rascunho de triagem
+  restaurarProgressoSeExistir(); 
 }

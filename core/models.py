@@ -2,17 +2,6 @@ from django.db import models
 from django.core.exceptions import ValidationError
 
 
-class ConfiguracaoApp(models.Model):
-    tempo_expiracao_denuncia = models.TimeField()
-
-    def save(self, *args, **kwargs):
-        if not self.pk and ConfiguracaoApp.objects.exists():
-            raise ValidationError("Já existe uma configuração cadastrada.")
-        super().save(*args, **kwargs)
-
-    def __str__(self):
-        return "Configurações da Aplicação"
-    
 
 
 class Endereco(models.Model):
