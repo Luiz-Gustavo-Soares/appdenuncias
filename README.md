@@ -129,6 +129,18 @@ Painel administrativo:
 http://127.0.0.1:8000/admin/
 ```
 
+## Executar o Projeto em Produção
+Preparar o ambiente
+```bash
+./build.sh
+```
+
+Execuçao
+```bash
+gunicorn appdenuncias.wsgi:application
+```
+
+
 ## Arquivos de Mídia
 
 Os arquivos enviados pelos usuários são armazenados no diretório:
