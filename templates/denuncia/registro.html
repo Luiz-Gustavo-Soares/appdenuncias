@@ -82,7 +82,7 @@
     novalidate
   >
     {% csrf_token %}
-
+    <input type="hidden" id="cod_denuncia_atual" value="{{ cod_denuncia }}" />
     <div class="registro__painel">
 
       <!-- -------- ETAPA 1: Questionário -------- -->
