@@ -93,17 +93,7 @@ Crie um arquivo `.env` na raiz do projeto:
 SECRET_KEY=sua-chave-secreta
 
 DEBUG=True
-ALLOWED_HOSTS=...
-
-*DB_NAME=app_denuncia
-*DB_USER=postgres
-*DB_PASSWORD=senha
-*DB_HOST=localhost
-*DB_PORT=5432
-
-EMAIL_HOST_USER=seu-email@gmail.com
-EMAIL_HOST_PASSWORD=sua-senha-de-aplicativo
-DEFAULT_FROM_EMAIL=seu-email@gmail.com
+ALLOWED_HOSTS=127.0.0.1
 ```
 
 ## Configuração do Banco de Dados
