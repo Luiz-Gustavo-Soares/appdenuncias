@@ -179,7 +179,7 @@ def registro(request, codigo_denuncia):
 
     if request.method == "POST":
         form = QuestionarioForm(request.POST)
-        if form.is_valid:
+        if form.is_valid():
             questionario = form.save(commit=False)
             questionario.denuncia = denuncia
             questionario.save()
@@ -192,6 +192,7 @@ def registro(request, codigo_denuncia):
                 )
             
             denuncia.state.salvar()
+            return redirect('index')
 
     form = QuestionarioForm()
     
