@@ -1,79 +1,55 @@
 /* ============================================================
    saida-rapida.js — Botão de saída rápida do DEAM
-   Responsabilidades:
-     - Ao clicar, redirecionar imediatamente para site neutro
-     - Bloquear retorno via botão "Voltar" do navegador
-     - Permitir retorno via URL digitada, link interno ou externo
+   Camadas de proteção:
+     1. sessionStorage sinaliza saída
+     2. Script inline no <head> esconde e redireciona antes do paint
+     3. pageshow garante redirecionamento mesmo sem event.persisted
+     4. visibilitychange cobre retorno por troca de aba
+     5. Cache-Control no-store via Django (@never_cache)
    ============================================================ */
 
-
-/* ------------------------------------------------------------
-   1. CONFIGURAÇÃO
-   ------------------------------------------------------------ */
 const SITE_NEUTRO = 'https://www.google.com';
 const CHAVE_SAIDA = 'deam_saida_rapida';
 
 
 /* ------------------------------------------------------------
-   2. VERIFICAÇÃO DE NAVEGAÇÃO INTENCIONAL
-   Detecta se a usuária chegou à página de forma intencional
-   (URL digitada, link interno ou link externo) e limpa o
-   sinalizador de saída rápida se for o caso.
-   ------------------------------------------------------------ */
-(function verificarNavegacaoIntencional() {
-  if (sessionStorage.getItem(CHAVE_SAIDA) !== '1') return;
-
-  const nav = performance.getEntriesByType('navigation')[0];
-
-  // 'navigate'      = URL digitada, link clicado (interno ou externo)
-  // 'back_forward'  = botão Voltar/Avançar do navegador
-  // 'reload'        = F5 / recarregar
-  // 'prerender'     = pré-renderização do navegador
-  const tipo = nav?.type ?? 'navigate';
-
-  if (tipo === 'navigate') {
-    // Chegou por link ou URL — navegação intencional, libera acesso
-    sessionStorage.removeItem(CHAVE_SAIDA);
-  }
-
-  // 'back_forward' e 'reload' mantém o sinalizador ativo,
-  // o bloqueio será aplicado pelos eventos abaixo
-})();
-
-
-/* ------------------------------------------------------------
-   3. FUNÇÃO PRINCIPAL
+   FUNÇÃO PRINCIPAL
    ------------------------------------------------------------ */
 function executarSaidaRapida() {
   sessionStorage.setItem(CHAVE_SAIDA, '1');
-  window.location.replace(SITE_NEUTRO);
+  window.location.href = SITE_NEUTRO;
 }
 
 
 /* ------------------------------------------------------------
-   4. DETECÇÃO DE RETORNO VIA BOTÃO "VOLTAR"
+   PAGESHOW — sem depender de event.persisted
+   Cobre bfcache e navegadores que não marcam persisted
+   corretamente.
    ------------------------------------------------------------ */
-
-// Restauração via bfcache (cache de navegação do navegador)
-window.addEventListener('pageshow', function (e) {
-  if (e.persisted && sessionStorage.getItem(CHAVE_SAIDA) === '1') {
-    window.location.replace(SITE_NEUTRO);
+window.addEventListener('pageshow', function () {
+  if (sessionStorage.getItem(CHAVE_SAIDA) === '1') {
+    document.documentElement.style.visibility = 'hidden';
+    location.replace(SITE_NEUTRO);
   }
 });
 
-// Aba volta ao foco
+
+/* ------------------------------------------------------------
+   VISIBILITYCHANGE — cobre retorno por troca de aba
+   ------------------------------------------------------------ */
 document.addEventListener('visibilitychange', function () {
   if (
     document.visibilityState === 'visible' &&
     sessionStorage.getItem(CHAVE_SAIDA) === '1'
   ) {
-    window.location.replace(SITE_NEUTRO);
+    document.documentElement.style.visibility = 'hidden';
+    location.replace(SITE_NEUTRO);
   }
 });
 
 
 /* ------------------------------------------------------------
-   5. EVENTOS
+   EVENTOS
    ------------------------------------------------------------ */
 const btnSaidaRapida = document.getElementById('btn-saida-rapida');
 

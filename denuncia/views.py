@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import FileResponse
 from django.core.exceptions import PermissionDenied
+from django.views.decorators.cache import never_cache
 
 from denuncia.models import Denuncia, Evidencia, DenunciaBaseInfo
 from denuncia.services.denuncia_service import DenunciaService
@@ -119,6 +120,7 @@ def finalizar(request, denuncia_id):
     )
 
 
+@never_cache
 def triagem(request):
     if request.method == 'POST':
         request.session['triagem'] = request.POST.dict()
@@ -163,38 +165,6 @@ def triagem(request):
 
     return redirect('index')
 
-def registro(request, codigo_denuncia):
-    denuncia = get_object_or_404(
-        Denuncia,
-        codigo_denuncia=codigo_denuncia
-    )
-
-    if not denuncia.status == StatusDenuncia.RASCUNHO:
-        return redirect('index')
-
-
-
-    if request.method == "POST":
-        form = QuestionarioForm(request.POST)
-        if form.is_valid:
-            questionario = form.save(commit=False)
-            questionario.denuncia = denuncia
-            questionario.save()
-
-            for arquivo in request.FILES.getlist("anexos"):
-
-                Evidencia.objects.create(
-                    denuncia=denuncia,
-                    arquivo=arquivo
-                )
-            
-            denuncia.state.salvar()
-
-    form = QuestionarioForm()
-    
-    context = {
-        'denuncia': denuncia, 
-        'form': form
-        }
-    
-    return render(request, 'denuncia/registro.html', context)
+@never_cache
+def registro(request):
+    return render(request, 'denuncia/registro.html')

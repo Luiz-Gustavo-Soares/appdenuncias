@@ -132,60 +132,52 @@ function voltarPasso() {
 
 
 /* ------------------------------------------------------------
-   4. LÓGICA CONDICIONAL
-   Define para qual passo ir com base no passo atual e na resposta.
+   4. STATE MACHINE — FLUXO DE PASSOS
+   Cada passo mapeia suas respostas possíveis para o próximo
+   passo. Para adicionar ou alterar o fluxo, basta editar
+   este objeto — sem tocar na lógica de navegação.
    ------------------------------------------------------------ */
+const FLUXO = {
+  '1': {
+    'sim': 'perigo',  // Perigo imediato — exibe aviso
+    'nao': '2',
+  },
+  '2': {
+    'sim': '2b',      // Já registrou antes — pergunta situação
+    'nao': '3',
+  },
+  '2b': {
+    'encerrada': '3', // Qualquer resposta avança para passo 3
+    'andamento': '3',
+    'incerto':   '3',
+  },
+  '3': {
+    'eu-mesma':    '4a',
+    'outra-pessoa':'4b',
+  },
+};
 
 /**
- * Decide o próximo passo com base no passo atual e no valor clicado.
- * @param {string} passo  - Passo atual (ex: '1', '2', '2b', '3')
- * @param {string} valor  - Resposta da usuária (ex: 'sim', 'nao', 'eu-mesma')
+ * Consulta o FLUXO e navega para o próximo passo.
+ * Se o passo não tiver próximo no FLUXO (ex: 4b com "incerto"),
+ * finaliza a triagem diretamente.
+ * @param {string} passo - Passo atual
+ * @param {string} valor - Resposta da usuária
  */
 function decidirProximoPasso(passo, valor) {
-  // Salva a resposta no estado
   estado.respostas[passo] = valor;
 
-  switch (passo) {
+  const proximo = FLUXO[passo]?.[valor];
 
-    case '1':
-      if (valor === 'sim') {
-        // Perigo imediato: exibe aviso e não avança para o registro
-        irPara('perigo');
-      } else {
-        irPara('2');
-      }
-      break;
+  if (proximo) {
+    irPara(proximo);
+    return;
+  }
 
-    case '2':
-      if (valor === 'sim') {
-        // Já registrou antes: pergunta se ainda está em andamento
-        irPara('2b');
-      } else {
-        irPara('3');
-      }
-      break;
-
-    case '2b':
-      // Qualquer resposta (encerrada / andamento / incerto) avança para passo 3
-      irPara('3');
-      break;
-
-    case '3':
-      if (valor === 'eu-mesma') {
-        irPara('4a');
-      } else {
-        irPara('4b');
-      }
-      break;
-
-    case '4b':
-      // "Não tenho certeza" — avança sem endereço preenchido
-      estado.endereco = { tipo: 'terceiro', incerto: true };
-      finalizarTriagem();
-      break;
-
-    default:
-      break;
+  // Passo 4b — "Não tenho certeza": finaliza sem endereço
+  if (passo === '4b') {
+    estado.endereco = { tipo: 'terceiro', incerto: true };
+    finalizarTriagem();
   }
 }
 
