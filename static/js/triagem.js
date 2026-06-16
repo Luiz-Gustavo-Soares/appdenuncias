@@ -384,31 +384,67 @@ btnAvancar4b?.addEventListener('click', function () {
 
 
 /* ------------------------------------------------------------
-   10. INICIALIZAÇÃO
+   10. INICIALIZAÇÃO E RETOMADA
    ------------------------------------------------------------ */
-(function init() {
-  // Se a navegação veio com ?reset=1 (botão "Início" da navbar),
-  // limpa tudo e mostra a landing normalmente.
+window.addEventListener('pageshow', function (event) {
   const params = new URLSearchParams(window.location.search);
+  
+  // 1. Reset manual: Se houver ordem explícita na URL
   if (params.get('reset') === '1') {
     localStorage.removeItem('deam_registro_progresso');
-    localStorage.removeItem(CHAVE_STORAGE);
-    // Remove o parâmetro da URL sem recarregar a página
+    localStorage.removeItem(CHAVE_STORAGE); // triagem
     window.history.replaceState({}, '', window.location.pathname);
   } else {
-    // Sem reset: se a usuária já estava no registro, manda direto pra lá
-    const progressoRegistro = localStorage.getItem('deam_registro_progresso');
-    if (progressoRegistro) {
-      window.location.replace('/denuncia/registro/');
-      return;
+    // 2. Acesso limpo: verifica se existe uma denúncia salva no registro
+    const rawProgresso = localStorage.getItem('deam_registro_progresso');
+    
+    if (rawProgresso) {
+      try {
+        const dados = JSON.parse(rawProgresso);
+        
+        // Verifica se realmente há dados preenchidos
+        const temCampos = dados.campos && Object.values(dados.campos).some(v => String(v).trim() !== '');
+        
+        // CORREÇÃO: Removemos a dependência estrita do "dados.cod_denuncia" existir
+        if (temCampos) {
+          // Pequeno timeout garante a renderização visual do HTML antes de travar a tela
+          setTimeout(() => {
+            const desejaContinuar = window.confirm(
+              'Identificamos uma denúncia em andamento. Deseja continuar de onde parou?'
+            );
+
+            if (desejaContinuar) {
+              // Se tiver um código, usa a URL específica. Se não tiver, vai para a URL base.
+              const urlDestino = dados.cod_denuncia 
+                ? `/denuncia/registro/${dados.cod_denuncia}/` 
+                : '/denuncia/registro/';
+                
+              window.location.href = urlDestino;
+            } else {
+              // Usuária recusou: apaga a denúncia da memória e inicia triagem do zero
+              localStorage.removeItem('deam_registro_progresso');
+              iniciarTriagemLimpa();
+            }
+          }, 100);
+          
+          return; // Para a execução do script aqui para não sobrepor telas
+        }
+      } catch (e) {
+        localStorage.removeItem('deam_registro_progresso');
+      }
     }
   }
 
-  // Garante que apenas o passo 1 esteja visível ao carregar
+  // 3. Fluxo normal: se não achou denúncia no formulário, inicia a triagem
+  iniciarTriagemLimpa();
+});
+
+/**
+ * Função auxiliar para montar a tela de triagem original
+ */
+function iniciarTriagemLimpa() {
   mostrarPasso('1');
   atualizarCabecalho('1');
   atualizarBotaoVoltar();
-
-  // Verifica se há progresso da triagem salvo para restaurar
-  restaurarProgressoSeExistir();
-})();
+  restaurarProgressoSeExistir(); // Esta função no triagem.js restaura APENAS rascunho de triagem
+}

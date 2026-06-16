@@ -188,14 +188,20 @@ function marcarErro(campo) {
    ------------------------------------------------------------ */
 
 /**
- * Salva os valores atuais de todos os campos de texto/select
- * e a etapa atual no localStorage.
+ * Salva os valores atuais de todos os campos de texto/select,
+ * a etapa atual e o código da denúncia no localStorage.
  */
 function salvarProgresso() {
+  // Pega o código gerado pelo Django no HTML
+  const codElement = document.getElementById('cod_denuncia_atual');
+  const codDenuncia = codElement ? codElement.value : null;
+
   const dados = {
-    etapaAtual: estado.etapaAtual,
-    campos:     coletarCampos(),
+    etapaAtual:   estado.etapaAtual,
+    campos:       coletarCampos(),
+    cod_denuncia: codDenuncia       // Adicionado o código aqui!
   };
+  
   localStorage.setItem(CHAVE_STORAGE, JSON.stringify(dados));
 }
 
@@ -219,8 +225,8 @@ function coletarCampos() {
 }
 
 /**
- * Tenta restaurar progresso salvo.
- * Se existir e a etapa for maior que 1, pergunta à usuária.
+ * Tenta restaurar o progresso salvo silenciosamente.
+ * Compara o código da denúncia para evitar misturar rascunhos antigos com denúncias novas.
  */
 function restaurarProgressoSeExistir() {
   const raw = localStorage.getItem(CHAVE_STORAGE);
@@ -234,27 +240,27 @@ function restaurarProgressoSeExistir() {
     return;
   }
 
-  if (!dados.etapaAtual || dados.etapaAtual <= 1) {
+  // 1. Pega o código da denúncia atual (injetado pelo Django no HTML)
+  const codElement = document.getElementById('cod_denuncia_atual');
+  const codAtual = codElement ? codElement.value : null;
+
+  // 2. Trava de Segurança: Se os códigos não baterem, é uma denúncia nova.
+  // Destrói o rascunho antigo para não sobrescrever os dados errados.
+  if (codAtual && dados.cod_denuncia !== codAtual) {
     localStorage.removeItem(CHAVE_STORAGE);
     return;
   }
 
-  const desejaContinuar = window.confirm(
-    'Você tem um registro em andamento. Deseja continuar de onde parou?'
-  );
-
-  if (!desejaContinuar) {
-    localStorage.removeItem(CHAVE_STORAGE);
-    return;
-  }
-
-  // Restaura valores dos campos
+  // Se chegou até aqui, ou os códigos batem, ou é o mesmo ambiente.
+  // 3. Restaura os dados SILENCIOSAMENTE
   if (dados.campos) {
     restaurarCampos(dados.campos);
   }
 
-  // Navega para a etapa salva
-  irParaEtapa(dados.etapaAtual);
+  // 4. Navega para a etapa em que ela havia parado (se for maior que 1)
+  if (dados.etapaAtual && dados.etapaAtual > 1) {
+    irParaEtapa(dados.etapaAtual);
+  }
 }
 
 /**
