@@ -197,7 +197,8 @@ def registro(request, codigo_denuncia):
     
     context = {
         'denuncia': denuncia, 
-        'form': form
+        'form': form,
+        'cod_denuncia': denuncia.codigo_denuncia
         }
     
     return render(request, 'denuncia/registro.html', context)

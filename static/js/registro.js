@@ -243,7 +243,7 @@ function restaurarProgressoSeExistir() {
   // 1. Pega o código da denúncia atual (injetado pelo Django no HTML)
   const codElement = document.getElementById('cod_denuncia_atual');
   const codAtual = codElement ? codElement.value : null;
-
+  
   // 2. Trava de Segurança: Se os códigos não baterem, é uma denúncia nova.
   // Destrói o rascunho antigo para não sobrescrever os dados errados.
   if (codAtual && dados.cod_denuncia !== codAtual) {
