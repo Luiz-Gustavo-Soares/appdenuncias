@@ -166,5 +166,38 @@ def triagem(request):
     return redirect('index')
 
 @never_cache
-def registro(request):
-    return render(request, 'denuncia/registro.html')
+def registro(request, codigo_denuncia):
+    denuncia = get_object_or_404(
+        Denuncia,
+        codigo_denuncia=codigo_denuncia
+    )
+
+    if not denuncia.status == StatusDenuncia.RASCUNHO:
+        return redirect('index')
+
+
+
+    if request.method == "POST":
+        form = QuestionarioForm(request.POST)
+        if form.is_valid:
+            questionario = form.save(commit=False)
+            questionario.denuncia = denuncia
+            questionario.save()
+
+            for arquivo in request.FILES.getlist("anexos"):
+
+                Evidencia.objects.create(
+                    denuncia=denuncia,
+                    arquivo=arquivo
+                )
+            
+            denuncia.state.salvar()
+
+    form = QuestionarioForm()
+    
+    context = {
+        'denuncia': denuncia, 
+        'form': form
+        }
+    
+    return render(request, 'denuncia/registro.html', context)
