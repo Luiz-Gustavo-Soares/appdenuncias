@@ -237,27 +237,60 @@ small {
 
 /* Botão Saída Rápida */
 .navbar__saida-rapida {
+  position: relative;
   display: flex;
   align-items: center;
-  gap: var(--espaco-xs);
-  padding: var(--espaco-xs) var(--espaco-md);
+  gap: 6px;
+  padding: 7px var(--espaco-md) 7px 10px;
   background-color: var(--cor-vermelho);
   color: var(--cor-texto-claro);
   font-size: var(--tamanho-sm);
-  font-weight: 600;
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
-  border-radius: var(--raio-sm);
-  transition: background-color var(--transicao), transform var(--transicao);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  border-radius: 99px;
+  box-shadow: 0 1px 2px rgba(183, 28, 28, 0.25);
+  transition: background-color var(--transicao), transform var(--transicao), box-shadow var(--transicao);
+  flex-shrink: 0;
+}
+
+.navbar__saida-rapida svg {
   flex-shrink: 0;
 }
 
 .navbar__saida-rapida:hover {
   background-color: var(--cor-vermelho-hover);
+  box-shadow: 0 2px 6px rgba(183, 28, 28, 0.35);
 }
 
 .navbar__saida-rapida:active {
-  transform: scale(0.97);
+  transform: scale(0.96);
+}
+
+/* Ponto de pulso discreto — chama atenção sem ser irritante */
+.navbar__saida-rapida-pulso {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #FF8A80;
+  animation: pulso-saida 2.2s ease-in-out infinite;
+}
+
+@keyframes pulso-saida {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(255, 138, 128, 0.6);
+  }
+  70% {
+    box-shadow: 0 0 0 6px rgba(255, 138, 128, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .navbar__saida-rapida-pulso {
+    animation: none;
+  }
 }
 
 
